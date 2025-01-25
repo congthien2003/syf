@@ -1,0 +1,16 @@
+@tailwind components;
+@tailwind utilities;
+
+html {
+	scrollbar-width: thin; /* For Firefox */
+	overflow-y: auto;
+	transition: all 0.1s ease-in-out;
+}
+
+#root {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	font-family: "Afacad Flux", "Poppins" !important;
+}

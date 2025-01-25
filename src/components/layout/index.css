@@ -1,0 +1,18 @@
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	background-color: #ffeda8;
+}
+
+.header__navbar-item {
+	font-size: 18px;
+	padding: 2px 8px;
+	height: 30px;
+	transition: all 0.1s ease-in;
+}
+
+.header__navbar-item:hover {
+	border-bottom: 2px solid #aeaeae;
+}
