@@ -25,7 +25,13 @@ export default function Dashboard() {
 					id="slider"
 					className="flex items-center justify-center flex-col">
 					<div className="slider-content flex items-center justify-center flex-col">
-						<h2>Share Your Function</h2>
+						<h2 className="flex align-middle items-center gap-4">
+							{" "}
+							<i
+								className="fa fa-code slider-logo"
+								aria-hidden="true"></i>{" "}
+							Share Your Function{" "}
+						</h2>
 						<p>You can add, edit, and delete your function here.</p>
 					</div>
 					<div className="search">

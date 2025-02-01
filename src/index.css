@@ -11,6 +11,7 @@ html {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	flex-direction: column;
 	width: 100%;
 	font-family: "Afacad Flux", "Poppins" !important;
 }
