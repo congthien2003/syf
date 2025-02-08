@@ -9,8 +9,16 @@ import { hideLoading, showLoading } from "../../../core/store/loadingSlice";
 import { toaster } from "../../../components/ui/toaster";
 import { Button } from "../../../components/ui/button";
 import { Input } from "@chakra-ui/react/input";
-import { Textarea } from "@chakra-ui/react";
 import { Field } from "../../../components/ui/field";
+import {
+	SelectContent,
+	SelectItem,
+	SelectRoot,
+	SelectTrigger,
+	SelectValueText,
+} from "../../../components/ui/select";
+import { ListLanguages } from "../../../const/listLanguage";
+import { createListCollection } from "@chakra-ui/react/collection";
 export default function StorePage() {
 	const dispatch = useDispatch();
 
@@ -43,7 +51,12 @@ export default function StorePage() {
 		// TODO: Save markdown and code to database
 		setisEditDescription(false);
 		formatCode();
-		const { data, error } = await addSnippet(markdown, code, user.id);
+		const { data, error } = await addSnippet(
+			markdown,
+			code,
+			user.id,
+			selectedLanguage
+		);
 		console.log(data);
 		if (error) {
 			dispatch(hideLoading());
@@ -61,13 +74,20 @@ export default function StorePage() {
 		}
 	};
 
+	// Select Language
+	const listLanguage = createListCollection({
+		items: [...ListLanguages],
+	});
+
+	const [selectedLanguage, setSelectedLanguage] = useState("Javascript");
+
 	// TODO: Add Genarate description for function
 
 	return (
 		<>
-			<div className="flex gap-2 flex-col px-4 md:px-0 md:flex-row">
+			<div className="flex flex-col w-full gap-6 md:px-0 md:flex-row">
 				{/* Markdown Editor */}
-				<div className="w-full md:w-1/2 p-6 border-r border-gray-300 bg-white shadow-lg rounded-lg">
+				<div className="w-full md:w-1/2 p-6 border-r border-gray-300 bg-gray shadow-lg rounded-lg">
 					<h2 className="text-lg font-semibold mb-2">
 						📜 Markdown Description
 					</h2>
@@ -98,11 +118,11 @@ export default function StorePage() {
 						</div>
 					)}
 					<div>
-						<button
+						<Button
 							className="px-4 py-1 mt-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-all cursor-pointer"
 							onClick={save}>
 							Save
-						</button>
+						</Button>
 					</div>
 				</div>
 
@@ -114,15 +134,40 @@ export default function StorePage() {
 						<h2 className="text-lg font-semibold mb-2">
 							💻 Code Editor
 						</h2>
-						<div className="info">
-							<div>
-								<span className="text-gray-500">
-									{editorRef.current
-										?.getModel()
-										?.getValueLength()}{" "}
-									characters
-								</span>
+						<div className="flex items-center gap-4">
+							<span className="text-gray-500">
+								{editorRef.current
+									?.getModel()
+									?.getLineCount() ?? 0}{" "}
+								lines
+							</span>
+							<div className="dropdown-language">
+								<SelectRoot
+									collection={listLanguage}
+									size="sm"
+									width="150px">
+									<SelectTrigger>
+										<SelectValueText
+											placeholder={selectedLanguage}
+										/>
+									</SelectTrigger>
+									<SelectContent>
+										{listLanguage.items.map((item) => (
+											<SelectItem
+												item={item}
+												key={item.value}
+												onClick={() =>
+													setSelectedLanguage(
+														item.label
+													)
+												}>
+												{item.label}
+											</SelectItem>
+										))}
+									</SelectContent>
+								</SelectRoot>
 							</div>
+
 							<button
 								onClick={formatCode}
 								className="px-3 py-1 bg-blue-500

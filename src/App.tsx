@@ -24,8 +24,8 @@ function App() {
 						<Route index element={<Home />} /> {/* Trang Home */}
 						<Route path="storing" element={<StorePage />} />{" "}
 						<Route path="dashboard" element={<Dashboard />} />{" "}
-						<Route path="view/:id" element={<ViewPage />} />{" "}
 					</Route>
+					<Route path="view/:id" element={<ViewPage />} />{" "}
 					<Route path="auth/login" element={<LoginPage />} />{" "}
 					<Route path="auth/register" element={<RegisterPage />} />{" "}
 				</Routes>

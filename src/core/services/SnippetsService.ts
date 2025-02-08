@@ -3,11 +3,12 @@ import supabase from "../../utils/supabase.ts";
 export const addSnippet = async (
 	description: string,
 	code: string,
-	user_id: string
+	user_id: string,
+	language: string
 ) => {
 	const { data, error } = await supabase
 		.from("snippets")
-		.insert([{ description, code, user_id }]);
+		.insert([{ description, code, user_id, language }]);
 	return { data, error };
 };
 
