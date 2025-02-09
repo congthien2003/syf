@@ -13,15 +13,16 @@ import Loading from "./components/ui/loading/loading";
 import { Toaster } from "./components/ui/toaster";
 function App() {
 	const user = useSelector((state: RootState) => state.auth.user);
-	console.log(user);
+	// console.log(user);
 	return (
 		<>
 			<Loading />
 			<Toaster />
 			<BrowserRouter>
 				<Routes>
+					<Route index element={<Home />} />
 					<Route path="/" element={<MainLayout />}>
-						<Route index element={<Home />} /> {/* Trang Home */}
+						{/* Trang Home */}
 						<Route path="storing" element={<StorePage />} />{" "}
 						<Route path="dashboard" element={<Dashboard />} />{" "}
 					</Route>

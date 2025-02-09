@@ -3,7 +3,10 @@ import React, { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import Editor from "@monaco-editor/react";
 import { useParams } from "react-router-dom";
-import { getSnippetById } from "../../../core/services/SnippetsService";
+import {
+	getSnippetById,
+	updateSnippetView,
+} from "../../../core/services/SnippetsService";
 import { Snippet } from "../../../core/interface/Snippets";
 import { toaster } from "../../../components/ui/toaster";
 import "../../../utils/shared.css";
@@ -15,6 +18,7 @@ const ViewPage = () => {
 	const id = params.id || "";
 
 	const [snippet, setSnippet] = useState<Snippet>();
+
 	// Giả sử dữ liệu được fetch từ Supabase hoặc API
 	const [description, setDescription] = useState<string>(
 		"## Loading description... \n Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam fugit, aspernatur corporis, soluta eligendi odit quidem velit unde pariatur numquam ipsum saepe quia iusto repellat officia eaque labore at dolores?"
@@ -32,6 +36,8 @@ const ViewPage = () => {
 
 	const fetch = async () => {
 		// Giả sử lấy dữ liệu từ API hoặc Supabase theo id
+		dispatch(showLoading());
+
 		const { data, error } = await getSnippetById(id);
 
 		if (error) {
@@ -41,12 +47,15 @@ const ViewPage = () => {
 			setSnippet(data);
 			setDescription(data.description);
 			setCode(data.code);
+			setTimeout(async () => {
+				await updateSnippetView(id, snippet!.views + 1);
+			}, 3000);
 		}
 		dispatch(hideLoading());
 	};
 	// // eslint-disable-next-line react-hooks/exhaustive-deps
 	useEffect(() => {
-		dispatch(showLoading());
+		console.log("Effect");
 
 		if (id) {
 			fetch();
@@ -74,12 +83,38 @@ const ViewPage = () => {
 		<>
 			<div className="w-screen min-h-screen overflow-hidden bg-gray-100 p-4 flex flex-col items-center">
 				{/* Function Name */}
-				<h1 className="text-2xl font-bold text-gray-800">
-					{snippet?.name ?? "Function Name"}
-				</h1>
-				<h4 className="text-md font-medium text-gray-500 mb-4">
-					Author: {snippet?.author_name ?? ""}
-				</h4>
+				<div className="flex items-center justify-between w-screen px-4">
+					<div className="">
+						<h1 className="text-2xl font-bold text-gray-800">
+							{snippet?.name ?? "Function Name"}
+						</h1>
+						<div className="flex gap-4 items-center">
+							<span className="text-md font-medium text-gray-500">
+								Author: {snippet?.author_name ?? ""}
+							</span>
+							<span className="text-md font-medium text-gray-500">
+								Date:{" "}
+								{snippet?.created_at
+									.toString()
+									.substring(0, 10) ?? ""}
+							</span>
+							<span
+								className="
+							text-md
+							font-medium
+							text-gray-500">
+								View: 100
+							</span>
+						</div>
+					</div>
+					<div>
+						<button
+							className="w-full py-3 px-6 text-white bg-blue-600 rounded-md hover:bg-blue-700"
+							onClick={copyCode}>
+							Copy Code
+						</button>
+					</div>
+				</div>
 
 				<div className="flex flex-col md:flex-row w-full gap-6">
 					{/* Markdown Viewer */}

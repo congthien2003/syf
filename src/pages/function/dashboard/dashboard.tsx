@@ -4,6 +4,9 @@ import ButtonView from "../../../components/ui/button-view/button-view";
 import { Avatar } from "../../../components/ui/avatar";
 import { Checkbox } from "../../../components/ui/checkbox";
 import { ListLanguages } from "../../../const/listLanguage";
+import { useQuery } from "@tanstack/react-query";
+import { getList } from "../../../core/services/SnippetsService";
+import { Snippet } from "../../../core/interface/Snippets";
 export default function Dashboard() {
 	const [filterLang, setFilterLang] = useState("");
 
@@ -18,6 +21,15 @@ export default function Dashboard() {
 			{item.label}
 		</Checkbox>
 	));
+
+	const [page, setPage] = useState(1);
+	const { data } = useQuery({
+		queryKey: ["snippets", page],
+		queryFn: () => getList(page),
+		// Giữ dữ liệu cũ khi chuyển trang
+	});
+	console.log(data?.data);
+
 	return (
 		<>
 			<div className="dashboard">
@@ -60,6 +72,47 @@ export default function Dashboard() {
 							<div className="list__header flex items-center justify-between">
 								<h4>List Function</h4>
 							</div>
+							{data?.data?.map((snippet: Snippet) => {
+								return (
+									<li
+										className="info-container"
+										key={snippet.id}>
+										<div className="info">
+											<h5 className="name">
+												{snippet.name}
+											</h5>
+											<p className="description">
+												{snippet.descripion}
+											</p>
+											<div className="author flex align-center items-center">
+												<p className="flex align-center items-center gap-2">
+													<Avatar
+														name={
+															snippet.author_name
+														}
+														size="xs"
+													/>
+													{snippet.author_name}
+												</p>
+												<p>
+													Date:{" "}
+													{snippet.created_at.toLocaleString(
+														"vi-VN",
+														{
+															day: "numeric",
+															month: "long",
+															year: "numeric",
+														}
+													)}
+												</p>
+											</div>
+										</div>
+										<div className="action">
+											<ButtonView name="View Code"></ButtonView>
+										</div>
+									</li>
+								);
+							})}
 							<li className="info-container">
 								<div className="info">
 									<h5 className="name">Config Program.cs</h5>
@@ -138,6 +191,19 @@ export default function Dashboard() {
 									<ButtonView name="View Code"></ButtonView>
 								</div>
 							</li>
+							<div className="pagination">
+								{/* <button
+									onClick={() => setPage((p) => p - 1)}
+									disabled={page === 1}>
+									Trang trước
+								</button>
+								<span>Page {page}</span> of {data?.totalPages}{" "}
+								pages
+								<span>Total: {data?.totalItems} snippets</span>
+								<button onClick={() => setPage((p) => p + 1)}>
+									Trang sau
+								</button> */}
+							</div>
 						</div>
 					</div>
 				</div>

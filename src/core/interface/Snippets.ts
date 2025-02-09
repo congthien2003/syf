@@ -8,4 +8,5 @@ export interface Snippet {
 	created_at: Date;
 	updated_at: Date;
 	language: string;
+	views: number;
 }
