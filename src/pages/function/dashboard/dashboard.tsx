@@ -108,89 +108,13 @@ export default function Dashboard() {
 											</div>
 										</div>
 										<div className="action">
-											<ButtonView name="View Code"></ButtonView>
+											<ButtonView
+												name="View Code"
+												to={`/view/${snippet.id}`}></ButtonView>
 										</div>
 									</li>
 								);
 							})}
-							<li className="info-container">
-								<div className="info">
-									<h5 className="name">Config Program.cs</h5>
-									<p className="description">
-										Config the .NET Core WebApi Project
-									</p>
-									<div className="author flex align-center items-center">
-										<p className="flex align-center items-center gap-2">
-											<Avatar name="Sabo" size="xs" />
-											Sabo
-										</p>
-										<p>Date: 12/12/2021</p>
-									</div>
-								</div>
-								<div className="action">
-									<ButtonView name="View Code"></ButtonView>
-								</div>
-							</li>
-							<li className="info-container">
-								<div className="info">
-									<h5 className="name">Function Name</h5>
-									<p className="description">
-										Function Description
-									</p>
-									<div className="author">
-										<p>Author: John Doe</p>
-										<p>Date: 12/12/2021</p>
-									</div>
-								</div>
-								<div className="action">
-									<ButtonView name="View Code"></ButtonView>
-								</div>
-							</li>
-							<li className="info-container">
-								<div className="info">
-									<h5 className="name">Function Name</h5>
-									<p className="description">
-										Function Description
-									</p>
-									<div className="author">
-										<p>Author: John Doe</p>
-										<p>Date: 12/12/2021</p>
-									</div>
-								</div>
-								<div className="action">
-									<ButtonView name="View Code"></ButtonView>
-								</div>
-							</li>
-							<li className="info-container">
-								<div className="info">
-									<h5 className="name">Function Name</h5>
-									<p className="description">
-										Function Description
-									</p>
-									<div className="author">
-										<p>Author: John Doe</p>
-										<p>Date: 12/12/2021</p>
-									</div>
-								</div>
-								<div className="action">
-									<ButtonView name="View Code"></ButtonView>
-								</div>
-							</li>
-							<li className="info-container">
-								<div className="info">
-									<h5 className="name">Function Name</h5>
-									<p className="description">
-										Function Description
-									</p>
-									<div className="author">
-										<p>Author: John Doe</p>
-										<p>Date: 12/12/2021</p>
-									</div>
-								</div>
-								<div className="action">
-									<ButtonView name="View Code"></ButtonView>
-								</div>
-							</li>
 							<div className="pagination">
 								{/* <button
 									onClick={() => setPage((p) => p - 1)}

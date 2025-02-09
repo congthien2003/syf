@@ -205,3 +205,24 @@
 	box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
 	transition: box-shadow 0.3s ease-in-out;
 }
+
+/* Background gradient */
+.background-gradient-white {
+	background: rgb(188, 193, 194);
+	background: linear-gradient(
+		90deg,
+		rgba(188, 193, 194, 1) 0%,
+		rgba(225, 229, 230, 1) 35%,
+		rgba(161, 173, 177, 1) 100%
+	);
+}
+
+.background-gradient-blue {
+	background: rgb(150, 171, 246);
+	background: linear-gradient(
+		90deg,
+		rgba(150, 171, 246, 1) 0%,
+		rgba(74, 117, 244, 1) 35%,
+		rgba(58, 209, 254, 1) 100%
+	);
+}

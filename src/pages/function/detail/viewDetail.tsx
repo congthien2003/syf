@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import Editor from "@monaco-editor/react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
 	getSnippetById,
 	updateSnippetView,
@@ -12,8 +12,10 @@ import { toaster } from "../../../components/ui/toaster";
 import "../../../utils/shared.css";
 import { useDispatch } from "react-redux";
 import { hideLoading, showLoading } from "../../../core/store/loadingSlice";
+import { Button } from "../../../components/ui/button";
 const ViewPage = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const params = useParams();
 	const id = params.id || "";
 
@@ -108,11 +110,13 @@ const ViewPage = () => {
 						</div>
 					</div>
 					<div>
-						<button
-							className="w-full py-3 px-6 text-white bg-blue-600 rounded-md hover:bg-blue-700"
-							onClick={copyCode}>
-							Copy Code
-						</button>
+						<Button
+							onClick={() => {
+								navigate("/auth/login");
+							}}
+							className="px-6 py-2 text-white font-medium rounded-lg bg-gradient-to-r  transition-all duration-200 shadow-lg shadow-gray-500/30 hover:shadow-gray-500/50">
+							Join now !
+						</Button>
 					</div>
 				</div>
 
@@ -143,12 +147,11 @@ const ViewPage = () => {
 								<span className="text-gray-700 font-medium">
 									{language}
 								</span>
-								<button
+								<Button
 									onClick={copyCode}
-									className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200">
-									<i className="fa fa-clipboard mr-2"></i>{" "}
-									Copy
-								</button>
+									className="px-4 py-2 text-white font-medium rounded-lg bg-gradient-to-r  transition-all duration-200 shadow-lg shadow-gray-500/30 hover:shadow-gray-500/50">
+									<i className="fa fa-clipboard mr-2"></i>Copy
+								</Button>
 							</div>
 						</div>
 

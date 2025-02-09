@@ -87,7 +87,7 @@ export default function StorePage() {
 		<>
 			<div className="flex flex-col w-full gap-6 md:px-0 md:flex-row">
 				{/* Markdown Editor */}
-				<div className="w-full md:w-1/2 p-6 border-r border-gray-300 bg-gray shadow-lg rounded-lg">
+				<div className="w-full md:w-1/2 p-6 border-r border-gray-300 bg-white shadow-lg rounded-lg">
 					<h2 className="text-lg font-semibold mb-2">
 						📜 Markdown Description
 					</h2>
