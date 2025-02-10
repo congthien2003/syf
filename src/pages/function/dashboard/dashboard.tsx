@@ -15,59 +15,26 @@ export default function Dashboard() {
 			size="sm"
 			key={item.value}
 			variant={"subtle"}
-			colorPalette={"green"}
 			checked={filterLang == item.value}
 			onClick={() => setFilterLang(item.value)}>
 			{item.label}
 		</Checkbox>
 	));
-
-	const [page, setPage] = useState(1);
+	const [page] = useState(1);
 	const { data } = useQuery({
 		queryKey: ["snippets", page],
 		queryFn: () => getList(page),
+
 		// Giữ dữ liệu cũ khi chuyển trang
 	});
-	console.log(data?.data);
+
+	console.log("Heelo world");
 
 	return (
 		<>
 			<div className="dashboard">
-				<div
-					id="slider"
-					className="flex items-center justify-center flex-col">
-					<div className="slider-content flex items-center justify-center flex-col">
-						<h2 className="flex align-middle items-center gap-4">
-							{" "}
-							<i
-								className="fa fa-code slider-logo"
-								aria-hidden="true"></i>{" "}
-							Share Your Function{" "}
-						</h2>
-						<p>You can add, edit, and delete your function here.</p>
-					</div>
-					<div className="search">
-						{/* <Input placeholder="Enter function name" /> */}
-						<input type="text" placeholder="Enter function name" />
-						<button className="btn-search">
-							Search
-							<i className="fa fa-search" aria-hidden="true"></i>
-						</button>
-					</div>
-				</div>
 				<div className="container flex justify-center">
 					<div className="content">
-						<div className="list-filter">
-							<h3>Filter</h3>
-							<div className="filter">
-								<h4 className="px-1 mb-2 text-sm text-gray-dark">
-									Language
-								</h4>
-								<div className="filter-item flex flex-col pl-4">
-									{listLanguage}
-								</div>
-							</div>
-						</div>
 						<div className="list">
 							<div className="list__header flex items-center justify-between">
 								<h4>List Function</h4>
@@ -127,6 +94,17 @@ export default function Dashboard() {
 								<button onClick={() => setPage((p) => p + 1)}>
 									Trang sau
 								</button> */}
+							</div>
+						</div>
+						<div className="list-filter">
+							<h3>Filter</h3>
+							<div className="filter">
+								<h4 className="px-1 mb-2 text-sm text-gray-dark">
+									Languages
+								</h4>
+								<div className="filter-item flex flex-col pl-4">
+									{listLanguage}
+								</div>
 							</div>
 						</div>
 					</div>

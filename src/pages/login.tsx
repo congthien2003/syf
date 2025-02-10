@@ -16,9 +16,14 @@ export default function LoginPage() {
 		if (emailRef.current != null && passwordRef.current != null) {
 			const email = emailRef.current.value;
 			const password = passwordRef.current.value;
-			dispatch(signIn({ email, password })).then(() => {
-				navigate("/dashboard");
-			});
+			dispatch(signIn({ email, password }))
+				.unwrap()
+				.then(() => {
+					navigate("/sharing");
+				})
+				.catch(() => {
+					navigate("/auth/login");
+				});
 		}
 	};
 

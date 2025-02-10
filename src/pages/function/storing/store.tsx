@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import ReactMarkdown from "react-markdown";
 import Editor from "@monaco-editor/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { addSnippet } from "../../../core/services/SnippetsService";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../core/store/store";
@@ -19,11 +19,20 @@ import {
 } from "../../../components/ui/select";
 import { ListLanguages } from "../../../const/listLanguage";
 import { createListCollection } from "@chakra-ui/react/collection";
+import { useNavigate } from "react-router-dom";
+import ButtonGlow from "../../../components/ui/button-glow/button-glow";
+import Modal from "../../../components/ui/gemini-modal/GeminiModal";
 export default function StorePage() {
 	const dispatch = useDispatch();
 
-	const user = useSelector((state: RootState) => state.auth.user);
-	console.log(user);
+	const navigate = useNavigate();
+	const { user } = useSelector((state: RootState) => state.auth);
+
+	useEffect(() => {
+		if (!user) {
+			navigate("/auth/login");
+		}
+	}, [user, navigate]);
 
 	const [markdown, setMarkdown] = useState<string>(
 		"## Mô tả\nNhập mô tả ở đây..."
@@ -80,17 +89,36 @@ export default function StorePage() {
 	});
 
 	const [selectedLanguage, setSelectedLanguage] = useState("Javascript");
-
+	const [isOpen, setIsOpen] = useState(false);
 	// TODO: Add Genarate description for function
+	const generate = function () {
+		// TODO: Generate markdown description
+		setIsOpen(true);
+	};
 
 	return (
 		<>
 			<div className="flex flex-col w-full gap-6 md:px-0 md:flex-row">
 				{/* Markdown Editor */}
 				<div className="w-full md:w-1/2 p-6 border-r border-gray-300 bg-white shadow-lg rounded-lg">
-					<h2 className="text-lg font-semibold mb-2">
-						📜 Markdown Description
-					</h2>
+					<div className="flex items-center justify-between">
+						<h2 className="text-lg font-semibold mb-2">
+							📜 Markdown Description
+						</h2>
+
+						<ButtonGlow onClick={generate}></ButtonGlow>
+						<Modal
+							codeValue={code}
+							isOpen={isOpen}
+							onClose={() => setIsOpen(false)}
+							onConfirm={(desc) => {
+								console.log("Confirmed:", desc);
+								setIsOpen(false);
+								setMarkdown(desc);
+							}}
+							onRetry={() => console.log("Retrying...")}
+						/>
+					</div>
 					<div className="mb-4 flex">
 						<Field label="Function Name" required>
 							<Input
@@ -119,7 +147,7 @@ export default function StorePage() {
 					)}
 					<div>
 						<Button
-							className="px-4 py-1 mt-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-all cursor-pointer"
+							className="px-4 py-1 mt-4 rounded transition-all cursor-pointer"
 							onClick={save}>
 							Save
 						</Button>
@@ -127,7 +155,7 @@ export default function StorePage() {
 				</div>
 
 				{/* Code Editor */}
-				<div className="w-full md:w-1/2 p-6 border-r border-gray-300 bg-white shadow-lg rounded-lg">
+				<div className="w-full md:w-1/2 py-3 px-6 border-r border-gray-300 bg-white shadow-lg rounded-lg">
 					<div
 						className="flex items-center justify-between mb-2
 					">
@@ -168,13 +196,13 @@ export default function StorePage() {
 								</SelectRoot>
 							</div>
 
-							<button
+							<Button
 								onClick={formatCode}
-								className="px-3 py-1 bg-blue-500
-						 text-white rounded hover:bg-blue-600 transition-all cursor-pointer">
+								className="px-3 py-1 
+						 text-white rounded  transition-all cursor-pointer">
 								<i className="fa-solid fa-wand-magic-sparkles mr-2"></i>
 								Format Code
-							</button>
+							</Button>
 						</div>
 					</div>
 
