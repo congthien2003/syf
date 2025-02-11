@@ -29,7 +29,7 @@ const MainLayout = () => {
 	};
 
 	return (
-		<div className="flex h-screen w-screen bg-gray-50">
+		<div className="flex h-screen w-screen bg-gray-100">
 			{/* Sidebar */}
 			<div className="w-64 bg-white border-r border-gray-200 shadow-lg flex flex-col">
 				{/* Logo */}

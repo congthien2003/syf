@@ -7,11 +7,15 @@ html {
 	transition: all 0.1s ease-in-out;
 }
 
+* {
+	font-family: "DM Sans", "Roboto", "Teko", serif;
+	box-sizing: border-box;
+}
+
 #root {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
 	width: 100%;
-	font-family: "Roboto", "Teko", serif !important;
 }
