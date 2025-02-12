@@ -24,11 +24,7 @@ export default function Dashboard() {
 	const { data } = useQuery({
 		queryKey: ["snippets", page],
 		queryFn: () => getList(page),
-
-		// Giữ dữ liệu cũ khi chuyển trang
 	});
-
-	console.log("Heelo world");
 
 	return (
 		<>

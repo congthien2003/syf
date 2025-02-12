@@ -19,9 +19,6 @@ import {
 import { ListLanguages } from "../../../const/listLanguage";
 import { createListCollection } from "@chakra-ui/react/collection";
 import { useNavigate } from "react-router-dom";
-import ButtonGlow from "../../../components/ui/button-glow/button-glow";
-import Modal from "../../../components/ui/gemini-modal/GeminiModal";
-import { generateText } from "../../../core/services/together";
 import "./style.css";
 import { functionStructures } from "../../../const/structureDesc";
 export default function StorePage() {
@@ -91,12 +88,19 @@ export default function StorePage() {
 	});
 
 	const [selectedLanguage, setSelectedLanguage] = useState("Javascript");
-	const [isOpen, setIsOpen] = useState(false);
+	// const [isOpen, setIsOpen] = useState(false);
 	const structure = functionStructures;
-	const generate = async function () {
+	const [selectedStructure, setSelectedStructure] = useState(0);
+	const generate = function () {
+		const random: number = Math.floor(Math.random() * 3);
 		// TODO: Generate markdown description
-		setMarkdown(structure.basic);
-		// await generateText();
+		if (selectedStructure != random) {
+			setSelectedStructure(random);
+			setMarkdown(structure[random]);
+		} else {
+			// TODO: Generate markdown description again with different structure
+			setMarkdown(structure[0]);
+		}
 	};
 
 	return (
@@ -165,9 +169,9 @@ export default function StorePage() {
 							/>
 						) : (
 							<div
-								className="w-full p-2 border rounded bg-gray-50 min-h-[400px] min-w-[570px] transition-all box-border prose"
+								className="w-full p-2 border rounded bg-gray-50 min-h-[400px] min-w-[570px] transition-all box-border"
 								onClick={() => setisEditDescription(true)}>
-								<ReactMarkdown className="w-full max-w-full rounded  transition-all min-h-[400px] box-border markdown-content">
+								<ReactMarkdown className="w-full max-w-full rounded  transition-all min-h-[400px] prose">
 									{markdown}
 								</ReactMarkdown>
 							</div>
@@ -239,6 +243,13 @@ export default function StorePage() {
 							automaticLayout: true,
 							formatOnType: true,
 							formatOnPaste: true,
+							minimap: {
+								enabled: false,
+							},
+							fontSize: 16,
+							fontWeight: "450",
+							lineHeight: 1.5,
+							tabSize: 4,
 						}}
 					/>
 				</div>

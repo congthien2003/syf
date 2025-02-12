@@ -1,6 +1,5 @@
 @tailwind components;
 @tailwind utilities;
-
 html {
 	scrollbar-width: thin; /* For Firefox */
 	overflow-y: auto;
@@ -16,6 +15,15 @@ html {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	flex-direction: column;
 	width: 100%;
 }
+/* 
+h1 {
+	font-size: 20px !important;
+	font-weight: bold !important;
+}
+
+h2 {
+	font-size: 18px !important;
+	font-weight: bold !important;
+} */

@@ -1,7 +1,5 @@
-export const functionStructures = {
-	basic: `## Mức 1: Tổng quan
-
-### Summary Function
+export const functionStructures = [
+	`### Summary Function
 - ...
 
 ### Input Params Type
@@ -11,10 +9,7 @@ export const functionStructures = {
 ### Return Types
 - \`result\`: ...
 `,
-
-	medium: `## Mức 2: Chi tiết hơn
-
-### Summary Function
+	`### Summary Function
 - ...
 
 ### Input Params Type
@@ -31,9 +26,7 @@ export const functionStructures = {
 - ...
 `,
 
-	hard: `## Mức 3: Step-by-Step Execution
-
-### Summary Function
+	`### Summary Function
 - ...
 
 ### Input Params Type
@@ -68,4 +61,4 @@ console.log(result);
 ### Notes
 - ...
 `,
-};
+];

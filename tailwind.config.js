@@ -8,22 +8,11 @@ module.exports = {
 			lg: "976px",
 			xl: "1440px",
 		},
-		extend: {
-			spacing: {
-				"8xl": "96rem",
-				"9xl": "128rem",
-			},
-			borderRadius: {
-				"4xl": "2rem",
-			},
-		},
+		extend: {},
 		backgroundImage: {
 			"dark-gradient":
 				"linear-gradient(90deg, rgba(95,160,178,1) 0%, rgba(50,50,163,1) 35%, rgba(0,212,255,1) 100%)",
 		},
 	},
-	plugins: ["require('@tailwindcss/typography')"],
-	corePlugins: {
-		preflight: false,
-	},
+	plugins: [require("@tailwindcss/typography")],
 };
