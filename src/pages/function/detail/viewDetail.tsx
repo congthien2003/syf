@@ -54,20 +54,20 @@ Xử lý dữ liệu: Chuẩn hóa tên tệp hoặc danh mục sản phẩm tro
 
 	const fetch = async () => {
 		// Giả sử lấy dữ liệu từ API hoặc Supabase theo id
-		// dispatch(showLoading());
-		// const { data, error } = await getSnippetById(id);
-		// if (error) {
-		// 	setDescription(data.description);
-		// 	setCode(data.code);
-		// } else {
-		// 	setSnippet(data);
-		// 	setDescription(data.description);
-		// 	setCode(data.code);
-		// 	setTimeout(async () => {
-		// 		await updateSnippetView(id, snippet!.views + 1);
-		// 	}, 3000);
-		// }
-		// dispatch(hideLoading());
+		dispatch(showLoading());
+		const { data, error } = await getSnippetById(id);
+		if (error) {
+			setDescription(data.description);
+			setCode(data.code);
+		} else {
+			setSnippet(data);
+			setDescription(data.description);
+			setCode(data.code);
+			setTimeout(async () => {
+				await updateSnippetView(id, snippet!.views + 1);
+			}, 3000);
+		}
+		dispatch(hideLoading());
 	};
 	// // eslint-disable-next-line react-hooks/exhaustive-deps
 	useEffect(() => {

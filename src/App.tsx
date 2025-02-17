@@ -10,6 +10,7 @@ import ViewPage from "./pages/function/detail/viewDetail";
 import Loading from "./components/ui/loading/loading";
 import { Toaster } from "./components/ui/toaster";
 import YourFunctions from "./pages/function/yourfunction/yourFunction";
+import EditPage from "./pages/function/detail/edit";
 function App() {
 	return (
 		<>
@@ -21,6 +22,7 @@ function App() {
 					<Route path="/" element={<MainLayout />}>
 						{/* Trang Home */}
 						<Route path="storing" element={<StorePage />} />{" "}
+						<Route path="edit/:id" element={<EditPage />} />{" "}
 						<Route path="sharing" element={<Dashboard />} />{" "}
 						<Route
 							path="yourfunctions"

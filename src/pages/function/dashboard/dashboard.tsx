@@ -45,10 +45,10 @@ export default function Dashboard() {
 												{snippet.name}
 											</h5>
 											<p className="description">
-												{snippet.descripion}
+												{snippet.description}
 											</p>
 											<div className="author flex align-center items-center">
-												<p className="flex align-center items-center gap-2">
+												<div className="flex align-center items-center gap-2">
 													<Avatar
 														name={
 															snippet.author_name
@@ -56,7 +56,7 @@ export default function Dashboard() {
 														size="xs"
 													/>
 													{snippet.author_name}
-												</p>
+												</div>
 												<p>
 													Date:{" "}
 													{snippet.created_at.toLocaleString(
