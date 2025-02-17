@@ -1,7 +1,7 @@
 export interface Snippet {
 	id: string;
 	name: string;
-	descripion?: string;
+	description: string;
 	code: string;
 	user_id: string;
 	author_name: string;

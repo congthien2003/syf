@@ -2,7 +2,10 @@
 import ReactMarkdown from "react-markdown";
 import Editor from "@monaco-editor/react";
 import { useEffect, useRef, useState } from "react";
-import { addSnippet } from "../../../core/services/SnippetsService";
+import {
+	getSnippetById,
+	updateSnippet,
+} from "../../../core/services/SnippetsService";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../core/store/store";
 import { hideLoading, showLoading } from "../../../core/store/loadingSlice";
@@ -18,26 +21,65 @@ import {
 } from "../../../components/ui/select";
 import { ListLanguages } from "../../../const/listLanguage";
 import { createListCollection } from "@chakra-ui/react/collection";
-import { useNavigate } from "react-router-dom";
-import "./style.css";
+import { useNavigate, useParams } from "react-router-dom";
 import { functionStructures } from "../../../const/structureDesc";
-export default function StorePage() {
+import { Snippet } from "../../../core/interface/Snippets";
+import "../../../utils/shared.css";
+export default function EditPage() {
 	const dispatch = useDispatch();
 
 	const navigate = useNavigate();
 	const { user } = useSelector((state: RootState) => state.auth);
-	console.log(user);
+	const params = useParams();
+	const id: string = params.id || "";
+	const [snippet, setSnippet] = useState<Snippet>();
+	console.log(id);
+
+	// Check if user is logged in
+	// useEffect(() => {
+	// 	if (!user) {
+	// 		navigate("/auth/login");
+	// 	}
+	// }, [user, navigate]);
+
+	// * Fetch snippet by id
+	const setAll = function (data: Snippet): void {
+		setSnippet(data);
+		setFunctionName(data.name);
+		setMarkdown(data.description || "");
+		setCode(data.code);
+		setSelectedLanguage(data.language);
+	};
+
+	const fetch = async () => {
+		// Giả sử lấy dữ liệu từ API hoặc Supabase theo id
+		dispatch(showLoading());
+		const { data, error } = await getSnippetById(id);
+		if (error) {
+			setMarkdown(data.description);
+			setCode(data.code);
+		} else {
+			setAll(data);
+			console.log(data);
+		}
+		dispatch(hideLoading());
+	};
 
 	useEffect(() => {
-		if (!user) {
-			navigate("/auth/login");
+		if (id) {
+			fetch();
 		}
-	}, [user, navigate]);
+	}, []);
 
+	// * Init State
 	const [markdown, setMarkdown] = useState<string>(
 		"## Mô tả\nNhập mô tả ở đây..."
 	);
 	const [code, setCode] = useState<string>("console.log('Hello, world!');");
+
+	const [isEditDescription, setisEditDescription] = useState<boolean>(true);
+
+	const [functionName, setFunctionName] = useState("Test Function");
 
 	const editorRef = useRef<any>(null);
 
@@ -47,25 +89,24 @@ export default function StorePage() {
 
 	const formatCode = function () {
 		if (editorRef.current) {
+			console.log("Format code");
 			editorRef.current.getAction("editor.action.formatDocument").run();
 		}
 	};
 
-	const [isEditDescription, setisEditDescription] = useState<boolean>(true);
-
-	const [functionName, setFunctionName] = useState("Test Function");
-
+	// * Save Function
 	const save = async () => {
 		dispatch(showLoading());
 		// TODO: Save markdown and code to database
 		setisEditDescription(false);
 		formatCode();
-		const { data, error } = await addSnippet(
-			markdown,
-			code,
-			user.id,
-			selectedLanguage
-		);
+		const { data, error } = await updateSnippet(snippet!.id, {
+			name: functionName,
+			description: markdown,
+			code: code,
+			language: selectedLanguage,
+			updated_at: new Date(),
+		});
 		console.log(data);
 		if (error) {
 			dispatch(hideLoading());
@@ -89,17 +130,16 @@ export default function StorePage() {
 	});
 
 	const [selectedLanguage, setSelectedLanguage] = useState("Javascript");
-	// const [isOpen, setIsOpen] = useState(false);
 	const structure = functionStructures;
+
+	// Generate Markdown Description
 	const [selectedStructure, setSelectedStructure] = useState(0);
 	const generate = function () {
 		const random: number = Math.floor(Math.random() * 3);
-		// TODO: Generate markdown description
 		if (selectedStructure != random) {
 			setSelectedStructure(random);
 			setMarkdown(structure[random]);
 		} else {
-			// TODO: Generate markdown description again with different structure
 			setMarkdown(structure[0]);
 		}
 	};
@@ -137,19 +177,6 @@ export default function StorePage() {
 								Save
 							</Button>
 						</div>
-
-						{/* <Modal
-							codeLanguage={selectedLanguage}
-							codeValue={code}
-							isOpen={isOpen}
-							onClose={() => setIsOpen(false)}
-							onConfirm={(desc) => {
-								console.log("Confirmed:", desc);
-								setIsOpen(false);
-								setMarkdown(desc);
-							}}
-							onRetry={() => console.log("Retrying...")}
-						/> */}
 					</div>
 					<div className="mb-4 flex flex-col">
 						<h4 className="mb-2">Function Name</h4>
@@ -192,7 +219,7 @@ export default function StorePage() {
 							<span className="text-gray-500">
 								{editorRef.current
 									?.getModel()
-									?.getLineCount() ?? 1}{" "}
+									?.getLineCount() ?? 0}{" "}
 								lines
 							</span>
 							<div className="dropdown-language">
@@ -231,21 +258,36 @@ export default function StorePage() {
 							</Button>
 						</div>
 					</div>
-
 					<Editor
 						className="editor"
 						height="80vh"
-						defaultLanguage="javascript"
+						defaultLanguage={selectedLanguage.toLowerCase()}
 						value={code}
 						onMount={handleEditorDidMount}
 						onChange={(value) => setCode(value || "")}
 						theme="vs-dark"
+						beforeMount={(monaco) => {
+							monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions(
+								{
+									noSyntaxValidation: true, // 🚀 Disable syntax validation
+								}
+							);
+						}}
 						options={{
 							automaticLayout: true,
 							formatOnType: true,
 							formatOnPaste: true,
+							smoothScrolling: true,
+							scrollbar: {
+								vertical: "visible",
+								horizontal: "hidden",
+							},
 							minimap: {
 								enabled: false,
+							},
+							padding: {
+								top: 4,
+								bottom: 4,
 							},
 							fontSize: 16,
 							fontWeight: "450",

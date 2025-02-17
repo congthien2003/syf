@@ -76,12 +76,18 @@ const YourFunctions = () => {
 									<div className="flex items-center gap-3">
 										<Button
 											colorScheme="whiteAlpha"
-											variant="outline">
+											variant="outline"
+											onClick={() =>
+												navigate(`/view/${fn.id}`)
+											}>
 											View
 										</Button>
 										<Button
 											colorScheme="whiteAlpha"
-											variant="solid">
+											variant="solid"
+											onClick={() =>
+												navigate(`/edit/${fn.id}`)
+											}>
 											Edit
 										</Button>
 									</div>

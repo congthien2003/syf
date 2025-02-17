@@ -226,3 +226,7 @@
 		rgba(58, 209, 254, 1) 100%
 	);
 }
+
+.markdown-content {
+	font-family: "Roboto";
+}

@@ -17,6 +17,7 @@ const MainLayout = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const { user } = useSelector((state: RootState) => state.auth);
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [url, setURL] = useState("/");
 
 	useEffect(() => {

@@ -35,7 +35,13 @@ export const getList = async (page: number) => {
 // Cập nhật snippet theo ID
 export const updateSnippet = async (
 	id: string,
-	snippet: Partial<{ description: string; code: string; language: string }>
+	snippet: Partial<{
+		name: string;
+		description: string;
+		code: string;
+		language: string;
+		updated_at: Date;
+	}>
 ) => {
 	const { data, error } = await supabase
 		.from("snippets")
