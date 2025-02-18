@@ -1,10 +1,33 @@
 import { Button } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../utils/shared.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../core/store/store";
+import { fetchSession, signOut } from "../core/store/authSlice";
 export default function Home() {
 	const navigate = useNavigate();
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const dispatch = useDispatch();
+
+	const { user } = useSelector((state: RootState) => state.auth);
+	const [isLogin, setIsLogin] = useState(false);
+	const handleLogout = () => {
+		dispatch(signOut());
+	};
+
+	useEffect(() => {
+		console.log(user);
+
+		if (!user) {
+			dispatch(fetchSession());
+		}
+
+		if (user) {
+			setIsLogin(true);
+		}
+	}, [user]);
+
 	return (
 		<div className="min-h-screen w-full bg-gradient-to-b from-white to-gray-200">
 			<header className="w-full py-4 bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
@@ -35,44 +58,68 @@ export default function Home() {
 					{/* Desktop Navigation */}
 					<nav className="hidden lg:flex items-center">
 						<div className="flex space-x-4">
-							<a
-								href="/"
+							<Link
+								to="/"
 								className="px-4 py-2 text-gray-700 hover:text-gray-600 rounded-lg hover:bg-gray-50 transition-all duration-200 font-medium relative group">
 								Home
 								<span className="absolute inset-x-0 bottom-0 h-0.5 bg-gray-600 transform w-full transition-transform duration-200"></span>
-							</a>
-							<a
-								href="/storing"
+							</Link>
+							<Link
+								to="/storing"
 								className="px-4 py-2 text-gray-700 hover:text-gray-600 rounded-lg hover:bg-gray-50 transition-all duration-200 font-medium relative group">
 								Storing
 								<span className="absolute inset-x-0 bottom-0 h-0.5 bg-gray-600 transform w-0 group-hover:w-full transition-transform duration-200"></span>
-							</a>
-							<a
-								href="/sharing"
+							</Link>
+							<Link
+								to="/sharing"
 								className="px-4 py-2 text-gray-700 hover:text-gray-600 rounded-lg hover:bg-gray-50 transition-all duration-200 font-medium relative group">
 								Sharing
 								<span className="absolute inset-x-0 bottom-0 h-0.5 bg-gray-600 transform w-0 group-hover:w-full transition-transform duration-200"></span>
-							</a>
+							</Link>
 						</div>
 					</nav>
 
+					{isLogin ? (
+						<div>
+							<div className="flex items-center gap-3">
+								<p className="text-sm font-bold text-gray-800 mr-4">
+									{user?.email}
+								</p>
+								{/* <Button
+									onClick={() => {
+										navigate(`/profile/${user?.id}`);
+									}}
+									className="px-6 py-2 text-gray-700 bg-white rounded-lg hover:bg-gray-200 transition-all duration-200 font-medium">
+									Profile
+								</Button> */}
+								<Button
+									onClick={handleLogout}
+									className="px-6 py-2 text-white font-medium rounded-lg bg-gradient-to-r  transition-all duration-200 shadow-lg shadow-gray-500/30 hover:shadow-gray-500/50">
+									Logout
+								</Button>
+							</div>{" "}
+						</div>
+					) : (
+						<div>
+							<div className="hidden lg:flex items-center gap-3">
+								<Button
+									onClick={() => {
+										navigate("/auth/login");
+									}}
+									className="px-6 py-2 text-gray-700 bg-white rounded-lg hover:bg-gray-200 transition-all duration-200 font-medium">
+									Login
+								</Button>
+								<Button
+									onClick={() => {
+										navigate("/auth/register");
+									}}
+									className="px-6 py-2 text-white font-medium rounded-lg bg-gradient-to-r  transition-all duration-200 shadow-lg shadow-gray-500/30 hover:shadow-gray-500/50">
+									Register
+								</Button>
+							</div>{" "}
+						</div>
+					)}
 					{/* Desktop Auth Buttons */}
-					<div className="hidden lg:flex items-center gap-3">
-						<Button
-							onClick={() => {
-								navigate("/auth/login");
-							}}
-							className="px-6 py-2 text-gray-700 bg-white rounded-lg hover:bg-gray-200 transition-all duration-200 font-medium">
-							Login
-						</Button>
-						<Button
-							onClick={() => {
-								navigate("/auth/register");
-							}}
-							className="px-6 py-2 text-white font-medium rounded-lg bg-gradient-to-r  transition-all duration-200 shadow-lg shadow-gray-500/30 hover:shadow-gray-500/50">
-							Register
-						</Button>
-					</div>
 
 					{/* Mobile Menu */}
 					<div

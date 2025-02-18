@@ -23,33 +23,22 @@ const ViewPage = () => {
 
 	// Giả sử dữ liệu được fetch từ Supabase hoặc API
 	const [description, setDescription] = useState<string>(
-		`## Loading description... \n Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam fugit, aspernatur corporis, soluta eligendi odit quidem velit unde pariatur numquam ipsum saepe quia iusto repellat officia eaque labore at dolores? Mức 2: Mô tả nâng cao \n - Điểm nổi bật
-Xóa bỏ các ký tự đặc biệt.
-Chuyển đổi chữ hoa thành chữ thường.
-Thay thế khoảng trắng bằng ký tự phân tách (- hoặc _).
-Hỗ trợ đa ngôn ngữ bằng cách loại bỏ dấu tiếng Việt hoặc ký tự Unicode đặc biệt.
-- 📌 Trường hợp sử dụng
-SEO Optimization: Tạo đường dẫn thân thiện với SEO khi xây dựng blog hoặc hệ thống CMS.
-Quản lý URL: Biến tiêu đề bài viết thành đường dẫn dễ nhớ.
-Xử lý dữ liệu: Chuẩn hóa tên tệp hoặc danh mục sản phẩm trong hệ thống quản lý nội dung.
-- 📌 Trường hợp sử dụng
-SEO Optimization: Tạo đường dẫn thân thiện với SEO khi xây dựng blog hoặc hệ thống CMS.
-Quản lý URL: Biến tiêu đề bài viết thành đường dẫn dễ nhớ.
-Xử lý dữ liệu: Chuẩn hóa tên tệp hoặc danh mục sản phẩm trong hệ thống quản lý nội dung.
-- 📌 Trường hợp sử dụng
-SEO Optimization: Tạo đường dẫn thân thiện với SEO khi xây dựng blog hoặc hệ thống CMS.
-Quản lý URL: Biến tiêu đề bài viết thành đường dẫn dễ nhớ.
-Xử lý dữ liệu: Chuẩn hóa tên tệp hoặc danh mục sản phẩm trong hệ thống quản lý nội dung.`
+		`## Loading description... \n`
 	);
 	const [code, setCode] = useState<string>(
 		"# Hello World from ShareYourFunctions..."
 	);
-	const [language] = useState<string>("Javascript");
 
 	const editorRef = useRef<any>(null);
 
 	const handleEditorDidMount = (editor: any) => {
 		editorRef.current = editor;
+	};
+
+	const setAll = function (data: Snippet): void {
+		setSnippet(data);
+		setDescription(data.description || "");
+		setCode(data.code);
 	};
 
 	const fetch = async () => {
@@ -61,8 +50,7 @@ Xử lý dữ liệu: Chuẩn hóa tên tệp hoặc danh mục sản phẩm tro
 			setCode(data.code);
 		} else {
 			setSnippet(data);
-			setDescription(data.description);
-			setCode(data.code);
+			setAll(data);
 			setTimeout(async () => {
 				await updateSnippetView(id, snippet!.views + 1);
 			}, 3000);
@@ -120,7 +108,7 @@ Xử lý dữ liệu: Chuẩn hóa tên tệp hoặc danh mục sản phẩm tro
 							text-md
 							font-medium
 							text-gray-500">
-									View: 100
+									View: {snippet?.views ?? 0}
 								</span>
 							</div>
 						</div>
@@ -162,7 +150,7 @@ Xử lý dữ liệu: Chuẩn hóa tên tệp hoặc danh mục sản phẩm tro
 										lines
 									</span>
 									<span className="text-gray-700 font-medium">
-										{language}
+										{snippet?.language ?? "None"}
 									</span>
 									<Button
 										onClick={copyCode}
@@ -183,8 +171,6 @@ Xử lý dữ liệu: Chuẩn hóa tên tệp hoặc danh mục sản phẩm tro
 								options={{
 									readOnly: true,
 									automaticLayout: true,
-									formatOnType: true,
-									formatOnPaste: true,
 									smoothScrolling: true,
 									scrollbar: {
 										vertical: "visible",

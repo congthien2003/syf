@@ -25,7 +25,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { functionStructures } from "../../../const/structureDesc";
 import { Snippet } from "../../../core/interface/Snippets";
 import "../../../utils/shared.css";
-// import * as monaco from "monaco-editor";
 export default function EditPage() {
 	const dispatch = useDispatch();
 
@@ -36,12 +35,14 @@ export default function EditPage() {
 	const [snippet, setSnippet] = useState<Snippet>();
 	console.log(id);
 
+	// Check if user is logged in
 	// useEffect(() => {
 	// 	if (!user) {
 	// 		navigate("/auth/login");
 	// 	}
 	// }, [user, navigate]);
 
+	// * Fetch snippet by id
 	const setAll = function (data: Snippet): void {
 		setSnippet(data);
 		setFunctionName(data.name);
@@ -70,10 +71,15 @@ export default function EditPage() {
 		}
 	}, []);
 
+	// * Init State
 	const [markdown, setMarkdown] = useState<string>(
 		"## Mô tả\nNhập mô tả ở đây..."
 	);
 	const [code, setCode] = useState<string>("console.log('Hello, world!');");
+
+	const [isEditDescription, setisEditDescription] = useState<boolean>(true);
+
+	const [functionName, setFunctionName] = useState("Test Function");
 
 	const editorRef = useRef<any>(null);
 
@@ -83,14 +89,12 @@ export default function EditPage() {
 
 	const formatCode = function () {
 		if (editorRef.current) {
+			console.log("Format code");
 			editorRef.current.getAction("editor.action.formatDocument").run();
 		}
 	};
 
-	const [isEditDescription, setisEditDescription] = useState<boolean>(true);
-
-	const [functionName, setFunctionName] = useState("Test Function");
-
+	// * Save Function
 	const save = async () => {
 		dispatch(showLoading());
 		// TODO: Save markdown and code to database
@@ -126,17 +130,16 @@ export default function EditPage() {
 	});
 
 	const [selectedLanguage, setSelectedLanguage] = useState("Javascript");
-	// const [isOpen, setIsOpen] = useState(false);
 	const structure = functionStructures;
+
+	// Generate Markdown Description
 	const [selectedStructure, setSelectedStructure] = useState(0);
 	const generate = function () {
 		const random: number = Math.floor(Math.random() * 3);
-		// TODO: Generate markdown description
 		if (selectedStructure != random) {
 			setSelectedStructure(random);
 			setMarkdown(structure[random]);
 		} else {
-			// TODO: Generate markdown description again with different structure
 			setMarkdown(structure[0]);
 		}
 	};
@@ -174,19 +177,6 @@ export default function EditPage() {
 								Save
 							</Button>
 						</div>
-
-						{/* <Modal
-							codeLanguage={selectedLanguage}
-							codeValue={code}
-							isOpen={isOpen}
-							onClose={() => setIsOpen(false)}
-							onConfirm={(desc) => {
-								console.log("Confirmed:", desc);
-								setIsOpen(false);
-								setMarkdown(desc);
-							}}
-							onRetry={() => console.log("Retrying...")}
-						/> */}
 					</div>
 					<div className="mb-4 flex flex-col">
 						<h4 className="mb-2">Function Name</h4>
@@ -268,30 +258,36 @@ export default function EditPage() {
 							</Button>
 						</div>
 					</div>
-
 					<Editor
 						className="editor"
 						height="80vh"
-						defaultLanguage={selectedLanguage}
+						defaultLanguage={selectedLanguage.toLowerCase()}
 						value={code}
 						onMount={handleEditorDidMount}
 						onChange={(value) => setCode(value || "")}
 						theme="vs-dark"
-						// beforeMount={(monaco) => {
-						// 	monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions(
-						// 		{
-						// 			// noSyntaxValidation: true, // 🚀 Disable syntax validation
-						// 			// noSemanticValidation: true,
-						// 			// noSuggestionDiagnostics: true,
-						// 		}
-						// 	);
-						// }}
+						beforeMount={(monaco) => {
+							monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions(
+								{
+									noSyntaxValidation: true, // 🚀 Disable syntax validation
+								}
+							);
+						}}
 						options={{
 							automaticLayout: true,
 							formatOnType: true,
 							formatOnPaste: true,
+							smoothScrolling: true,
+							scrollbar: {
+								vertical: "visible",
+								horizontal: "hidden",
+							},
 							minimap: {
 								enabled: false,
+							},
+							padding: {
+								top: 4,
+								bottom: 4,
 							},
 							fontSize: 16,
 							fontWeight: "450",
