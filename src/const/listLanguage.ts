@@ -5,11 +5,11 @@ export interface Language {
 export const ListLanguages: Language[] = [
 	{
 		label: "C#",
-		value: "c#",
+		value: "csharp",
 	},
 	{
 		label: "Javascript",
-		value: "js",
+		value: "javascript",
 	},
 	{
 		label: "Python",

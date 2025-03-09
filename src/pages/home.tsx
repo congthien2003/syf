@@ -3,37 +3,37 @@ import { Link, useNavigate } from "react-router-dom";
 import "../utils/shared.css";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../core/store/store";
-import { fetchSession, signOut } from "../core/store/authSlice";
+import { AppDispatch, RootState } from "../core/store/store";
+import { logoutUser } from "../core/store/authSlice";
 export default function Home() {
 	const navigate = useNavigate();
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const dispatch = useDispatch();
+	const dispatch = useDispatch<AppDispatch>();
 
 	const { user } = useSelector((state: RootState) => state.auth);
+
 	const [isLogin, setIsLogin] = useState(false);
+
 	const handleLogout = () => {
-		dispatch(signOut());
+		dispatch(logoutUser());
 	};
 
 	useEffect(() => {
 		console.log(user);
 
-		if (!user) {
-			dispatch(fetchSession());
-		}
-
 		if (user) {
 			setIsLogin(true);
+		} else {
+			setIsLogin(false);
 		}
 	}, [user]);
 
 	return (
 		<div className="min-h-screen w-full bg-gradient-to-b from-white to-gray-200">
 			<header className="w-full py-4 bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
-				<div className="container mx-auto flex justify-between items-center px-4 lg:px-6">
+				<div className="container mx-auto flex justify-between h-full  items-center px-4 lg:px-6">
 					{/* Logo */}
-					<div className="flex items-center gap-2">
+					<div className="hidden items-center gap-2 ">
 						<h1 className="text-sm text-black font-bold  px-2 py-2 rounded-lg ">
 							<i
 								className="fa fa-code mr-1"
@@ -41,16 +41,23 @@ export default function Home() {
 							Sharing Your Function
 						</h1>
 					</div>
+					<div className="flex items-center gap-2">
+						<h1 className="text-sm md:text-base text-black font-bold px-2 py-2 rounded-lg">
+							<i
+								className="fa fa-code mr-1"
+								aria-hidden="true"></i>
+							<span className="hidden sm:inline">
+								Sharing Your Function
+							</span>
+							<span className="sm:hidden">SYF</span>
+						</h1>
+					</div>
 
 					{/* Mobile Menu Button */}
 					<button
 						className="lg:hidden text-gray-600 hover:text-gray-900 p-2 rounded-lg hover:bg-gray-100 transition-colors"
 						onClick={() => setIsMenuOpen(!isMenuOpen)}>
-						{isMenuOpen ? (
-							<i
-								className="fa fa-window-close"
-								aria-hidden="true"></i>
-						) : (
+						{!isMenuOpen && (
 							<i className="fa fa-bars" aria-hidden="true"></i>
 						)}
 					</button>
@@ -81,17 +88,10 @@ export default function Home() {
 
 					{isLogin ? (
 						<div>
-							<div className="flex items-center gap-3">
+							<div className="hidden lg:flex items-center gap-3">
 								<p className="text-sm font-bold text-gray-800 mr-4">
 									{user?.email}
 								</p>
-								{/* <Button
-									onClick={() => {
-										navigate(`/profile/${user?.id}`);
-									}}
-									className="px-6 py-2 text-gray-700 bg-white rounded-lg hover:bg-gray-200 transition-all duration-200 font-medium">
-									Profile
-								</Button> */}
 								<Button
 									onClick={handleLogout}
 									className="px-6 py-2 text-white font-medium rounded-lg bg-gradient-to-r  transition-all duration-200 shadow-lg shadow-gray-500/30 hover:shadow-gray-500/50">
@@ -122,48 +122,50 @@ export default function Home() {
 					{/* Desktop Auth Buttons */}
 
 					{/* Mobile Menu */}
-					<div
-						className={`
+					{isMenuOpen && (
+						<div
+							className={`
           fixed inset-0 bg-white/80 backdrop-blur-md lg:hidden transition-transform duration-300 ease-in-out
-          ${isMenuOpen ? "translate-x-0" : "translate-x-full"}
+           "translate-x-full"
         `}>
-						<div className="flex flex-col h-full">
-							<div className="flex justify-end p-4">
-								<button
-									className="p-2 text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-100"
-									onClick={() => setIsMenuOpen(false)}>
-									<i
-										className="fa fa-close"
-										aria-hidden="true"></i>
-								</button>
-							</div>
-							<nav className="flex flex-col p-4 space-y-4">
-								<a
-									href="/"
-									className="px-4 py-3 text-gray-700 hover:text-gray-600 rounded-lg hover:bg-gray-50 transition-all duration-200 font-medium text-lg">
-									Home
-								</a>
-								<a
-									href="/storing"
-									className="px-4 py-3 text-gray-700 hover:text-gray-600 rounded-lg hover:bg-gray-50 transition-all duration-200 font-medium text-lg">
-									Storing
-								</a>
-								<a
-									href="/sharing"
-									className="px-4 py-3 text-gray-700 hover:text-gray-600 rounded-lg hover:bg-gray-50 transition-all duration-200 font-medium text-lg">
-									Sharing
-								</a>
-								<div className="flex flex-col gap-3 mt-4">
-									<button className="px-6 py-3 text-gray-700 hover:text-gray-600 rounded-lg hover:bg-gray-50 transition-all duration-200 font-medium">
-										Login
-									</button>
-									<button className="px-6 py-3 text-black bg-gray-400 font-medium rounded-lg transition-all duration-200 shadow-lg shadow-gray-500/30">
-										Register
+							<div className="flex flex-col h-full">
+								<div className="flex justify-end p-4">
+									<button
+										className="p-2 text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-100"
+										onClick={() => setIsMenuOpen(false)}>
+										<i
+											className="fa fa-close"
+											aria-hidden="true"></i>
 									</button>
 								</div>
-							</nav>
+								<nav className="flex flex-col p-4 space-y-4">
+									<Link
+										to="/"
+										className="px-4 py-3 text-gray-700 hover:text-gray-600 rounded-lg hover:bg-gray-400 transition-all duration-200 font-medium text-lg">
+										Home
+									</Link>
+									<Link
+										to="/storing"
+										className="px-4 py-3 text-gray-700 hover:text-gray-600 rounded-lg hover:bg-gray-400 transition-all duration-200 font-medium text-lg">
+										Storing
+									</Link>
+									<Link
+										to="/sharing"
+										className="px-4 py-3 text-gray-700 hover:text-gray-600 rounded-lg hover:bg-gray-400 transition-all duration-200 font-medium text-lg">
+										Sharing
+									</Link>
+									<div className="flex flex-col gap-3 mt-4">
+										<button className="px-6 py-3 text-gray-700 hover:text-gray-600 rounded-lg hover:bg-gray-50 transition-all duration-200 font-medium">
+											Login
+										</button>
+										<button className="px-6 py-3 text-black bg-gray-400 font-medium rounded-lg transition-all duration-200 shadow-lg shadow-gray-500/30">
+											Register
+										</button>
+									</div>
+								</nav>
+							</div>
 						</div>
-					</div>
+					)}
 				</div>
 			</header>
 

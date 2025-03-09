@@ -9,11 +9,13 @@ import {
 	FaCode,
 } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { signOut } from "../../core/store/authSlice";
-import { RootState } from "../../core/store/store";
+import { logoutUser } from "../../core/store/authSlice";
+import { AppDispatch, RootState } from "../../core/store/store";
+import { Avatar } from "../ui/avatar";
+import { Button } from "../ui/button";
 
 const MainLayout = () => {
-	const dispatch = useDispatch();
+	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
 	const location = useLocation();
 	const { user } = useSelector((state: RootState) => state.auth);
@@ -25,7 +27,7 @@ const MainLayout = () => {
 	}, [location.pathname]);
 
 	const logOut = () => {
-		dispatch(signOut());
+		dispatch(logoutUser());
 		navigate("/auth/login");
 	};
 
@@ -87,14 +89,15 @@ const MainLayout = () => {
 						</div>
 					) : (
 						<div className="space-y-3">
-							<div className="px-2 py-1.5 text-sm text-gray-600">
+							<div className="flex align-center items-center gap-2 text-sm text-gray-600">
+								<Avatar name={user.email} size="xs" />
 								{user.email}
 							</div>
-							<button
+							<Button
 								onClick={logOut}
-								className="w-full px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 hover:text-gray-900 transition-colors duration-200">
+								className="w-full rounded-lg transition-colors duration-200">
 								Logout
-							</button>
+							</Button>
 						</div>
 					)}
 				</div>

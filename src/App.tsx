@@ -11,9 +11,11 @@ import Loading from "./components/ui/loading/loading";
 import { Toaster } from "./components/ui/toaster";
 import YourFunctions from "./pages/function/yourfunction/yourFunction";
 import EditPage from "./pages/function/detail/edit";
+import AuthProvider from "./hooks/authProvider";
 function App() {
 	return (
 		<>
+			<AuthProvider />
 			<Loading />
 			<Toaster />
 			<BrowserRouter>

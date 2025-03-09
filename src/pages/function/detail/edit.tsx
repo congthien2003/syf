@@ -36,11 +36,11 @@ export default function EditPage() {
 	console.log(id);
 
 	// Check if user is logged in
-	// useEffect(() => {
-	// 	if (!user) {
-	// 		navigate("/auth/login");
-	// 	}
-	// }, [user, navigate]);
+	useEffect(() => {
+		if (!user) {
+			navigate("/auth/login");
+		}
+	}, [user, navigate]);
 
 	// * Fetch snippet by id
 	const setAll = function (data: Snippet): void {
