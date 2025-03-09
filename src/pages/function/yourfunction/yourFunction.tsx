@@ -50,7 +50,7 @@ const YourFunctions = () => {
 				/>
 			</div>
 
-			<div className=" p-4 rounded-lg shadow-md">
+			<div className="">
 				{functions.length === 0 ? (
 					<p className="text-gray-400">No functions found.</p>
 				) : (
@@ -64,7 +64,7 @@ const YourFunctions = () => {
 							.map((fn) => (
 								<li
 									key={fn.id}
-									className="flex items-center justify-between p-3 bg-gray-100 rounded-md">
+									className="flex items-center justify-between p-4 bg-gray-100 rounded-md shadow-lg hover:shadow-xl transition-all">
 									<div>
 										<p className="font-semibold">
 											{fn.name}

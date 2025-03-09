@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import Editor from "@monaco-editor/react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
 	getSnippetById,
@@ -13,6 +12,7 @@ import "../../../utils/shared.css";
 import { useDispatch } from "react-redux";
 import { hideLoading, showLoading } from "../../../core/store/loadingSlice";
 import { Button } from "../../../components/ui/button";
+import CodeEditor from "../../../components/ui/code-editor/code-editor";
 const ViewPage = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -28,6 +28,7 @@ const ViewPage = () => {
 	const [code, setCode] = useState<string>(
 		"# Hello World from ShareYourFunctions..."
 	);
+	const [language] = useState<string>("Javascript");
 
 	const editorRef = useRef<any>(null);
 
@@ -84,13 +85,13 @@ const ViewPage = () => {
 	};
 
 	return (
-		<>
-			<div className="w-screen min-h-screen overflow-hidden bg-gray-100 flex justify-center items-center">
-				<div className="container flex flex-col items-center py-4">
-					{/* Function Name */}
-					<div className="flex items-center border-2 rounded-lg justify-between w-full mb-3 px-4 py-2">
-						<div className="">
-							<h1 className="text-2xl font-bold text-gray-800">
+		<div className="w-screen min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex justify-center p-6">
+			<div className="container max-w-[1400px] flex flex-col items-center gap-6">
+				{/* Header Card */}
+				<div className="w-full bg-white border backdrop-blur-sm bg-opacity-90 rounded-xl shadow-lg p-6">
+					<div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+						<div className="space-y-2">
+							<h1 className="lg:text-3xl md:text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-gray-800 ">
 								{snippet?.name ?? "Function Name"}
 							</h1>
 							<div className="flex gap-4 items-center">
@@ -108,39 +109,42 @@ const ViewPage = () => {
 							text-md
 							font-medium
 							text-gray-500">
-									View: {snippet?.views ?? 0}
+									View: 100
 								</span>
 							</div>
 						</div>
-						<div>
-							<Button
-								onClick={() => {
-									navigate("/");
-								}}
-								className="px-6 py-2 text-white font-medium rounded-lg bg-gradient-to-r  transition-all duration-200 shadow-lg shadow-gray-500/30 hover:shadow-gray-500/50">
-								Join now !
-							</Button>
+						<Button
+							onClick={() => navigate("/")}
+							className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-2.5 rounded-lg font-medium transition-all duration-300 transform hover:scale-105">
+							Join now !
+						</Button>
+					</div>
+				</div>
+
+				{/* Content Section */}
+				<div className="flex flex-col lg:flex-row w-full gap-6">
+					{/* Description Card */}
+					<div className="flex-[40%] bg-white rounded-xl shadow-lg overflow-hidden">
+						<div className="border-b bg-gradient-to-r from-gray-50 to-white p-4">
+							<h2 className="lg:text-xl md:text-sm font-semibold flex items-center gap-2 lg:h-[50px] md:h-[35[px]">
+								<span className="text-2xl">📜</span>
+								Description
+							</h2>
+						</div>
+						<div className="p-6">
+							<div className="prose prose-sm md:prose-base max-w-none rounded-lg bg-gray-50 p-6">
+								<ReactMarkdown>{description}</ReactMarkdown>
+							</div>
 						</div>
 					</div>
 
-					<div className="flex flex-col md:flex-row w-full gap-6">
-						{/* Markdown Viewer */}
-						<div className="flex-[40%] p-6 border border-gray-300 bg-white shadow-md rounded-lg">
-							<h2 className="text-xl font-semibold text-gray-700 mb-6">
-								📜 Description
-							</h2>
-							<div className="p-3 border rounded-lg bg-gray-50 min-h-[80%] text-gray-800 fade-in">
-								<ReactMarkdown className="prose">
-									{description}
-								</ReactMarkdown>
-							</div>
-						</div>
-
-						{/* Code Viewer */}
-						<div className="w-full flex-[60%] h-full md:w-1/2 p-6 border border-gray-300 bg-white shadow-md rounded-lg fade-in">
-							<div className="flex justify-between items-center mb-3">
-								<h2 className="text-xl font-semibold text-gray-700">
-									💻 Code
+					{/* Code Card */}
+					<div className="flex-[60%] bg-white rounded-xl shadow-lg overflow-hidden">
+						<div className="border-b bg-gradient-to-r from-gray-50 to-white p-4">
+							<div className="flex justify-between items-center h-[50px]">
+								<h2 className="lg:text-xl md:text-sm font-semibold flex items-center gap-2">
+									<span className="text-2xl">💻</span>
+									Code
 								</h2>
 								<div className="flex items-center gap-3">
 									<span className="text-gray-500">
@@ -150,12 +154,12 @@ const ViewPage = () => {
 										lines
 									</span>
 									<span className="text-gray-700 font-medium">
-										{snippet?.language ?? "None"}
+										{language}
 									</span>
 									<Button
 										onClick={copyCode}
-										className="px-4 py-2 text-white font-medium rounded-lg bg-gradient-to-r  transition-all duration-200 shadow-lg shadow-gray-500/30 hover:shadow-gray-500/50">
-										<i className="fa fa-clipboard mr-2"></i>
+										className="bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-800 hover:to-gray-900 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
+										<i className="fas fa-copy"></i>
 										Copy
 									</Button>
 								</div>
@@ -171,6 +175,8 @@ const ViewPage = () => {
 								options={{
 									readOnly: true,
 									automaticLayout: true,
+									formatOnType: true,
+									formatOnPaste: true,
 									smoothScrolling: true,
 									scrollbar: {
 										vertical: "visible",
@@ -190,7 +196,7 @@ const ViewPage = () => {
 					</div>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 };
 

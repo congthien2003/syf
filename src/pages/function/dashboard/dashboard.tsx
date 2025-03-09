@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 import ButtonView from "../../../components/ui/button-view/button-view";
 import { Avatar } from "../../../components/ui/avatar";
 import { Checkbox } from "../../../components/ui/checkbox";
 import { ListLanguages } from "../../../const/listLanguage";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { getList } from "../../../core/services/SnippetsService";
 import { Snippet } from "../../../core/interface/Snippets";
+import Pagination from "../../../components/ui/pagination/Pagination";
 export default function Dashboard() {
 	const [filterLang, setFilterLang] = useState("");
 
@@ -16,14 +17,26 @@ export default function Dashboard() {
 			key={item.value}
 			variant={"subtle"}
 			checked={filterLang == item.value}
-			onClick={() => setFilterLang(item.value)}>
+			onClick={(e) => console.log(e)}>
 			{item.label}
 		</Checkbox>
 	));
-	const [page] = useState(1);
-	const { data } = useQuery({
-		queryKey: ["snippets", page],
-		queryFn: () => getList(page),
+
+	const [page, setPage] = useState(1);
+	const [pageSize, setPageSize] = useState(1);
+	const [search, setSearch] = useState("");
+	const [filter, setFilter] = useState([]);
+
+	const { data, total, page, pageSize, error } = useQuery({
+		queryKey: ["snippets", page, pageSize, search, filter],
+		queryFn: () =>
+			getList({
+				page,
+				pageSize,
+				search,
+				filter, // Lọc theo ngôn ngữ
+			}),
+		placeholderData: keepPreviousData,
 	});
 
 	return (
@@ -45,7 +58,7 @@ export default function Dashboard() {
 												{snippet.name}
 											</h5>
 											<p className="description">
-												{snippet.description}
+												{snippet.descripion}
 											</p>
 											<div className="author flex align-center items-center">
 												<div className="flex align-center items-center gap-2">
@@ -59,14 +72,10 @@ export default function Dashboard() {
 												</div>
 												<p>
 													Date:{" "}
-													{snippet.created_at.toLocaleString(
-														"vi-VN",
-														{
-															day: "numeric",
-															month: "long",
-															year: "numeric",
-														}
-													)}
+													{snippet?.created_at
+														.toString()
+														.substring(0, 10) ??
+														"None"}
 												</p>
 											</div>
 										</div>
@@ -78,19 +87,14 @@ export default function Dashboard() {
 									</li>
 								);
 							})}
-							<div className="pagination">
-								{/* <button
-									onClick={() => setPage((p) => p - 1)}
-									disabled={page === 1}>
-									Trang trước
-								</button>
-								<span>Page {page}</span> of {data?.totalPages}{" "}
-								pages
-								<span>Total: {data?.totalItems} snippets</span>
-								<button onClick={() => setPage((p) => p + 1)}>
-									Trang sau
-								</button> */}
-							</div>
+
+							{/* <Pagination
+								page={page}
+								total={data?.total ?? 0}
+								pageSize={pageSize}
+								onPageChange={(page) => {
+									setPage(page);
+								}}></Pagination> */}
 						</div>
 						<div className="list-filter">
 							<h3>Filter</h3>

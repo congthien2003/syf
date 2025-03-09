@@ -13,8 +13,8 @@ interface AuthState {
 
 // Trạng thái mặc định
 const initialState: AuthState = {
-	user: null,
-	session: null,
+	user: localStorage.getItem("authUser") || "",
+	session: JSON.parse(localStorage.getItem("supabaseSession")!) || null,
 	loading: false,
 	error: null,
 };
@@ -31,6 +31,9 @@ export const signIn = createAsyncThunk(
 			password,
 		});
 		if (error) return rejectWithValue(error.message);
+
+		// Lưu thông tin user vào localStorage
+		localStorage.setItem("supabaseSession", JSON.stringify(data.session));
 		return data;
 	}
 );
@@ -41,16 +44,19 @@ export const fetchSession = createAsyncThunk("auth/fetchSession", async () => {
 	return data;
 });
 
+export const logoutUser = createAsyncThunk("auth/logout", async () => {
+	await supabase.auth.signOut();
+	console.log("Logout");
+	localStorage.removeItem("supabaseSession");
+});
+
 // Slice quản lý auth
 const authSlice = createSlice({
 	name: "auth",
 	initialState,
 	reducers: {
-		signOut: (state) => {
-			state.user = null;
-			state.session = null;
-			state.error = null;
-			state.loading = false;
+		setUser: (state, action) => {
+			state.user = action.payload;
 		},
 	}, // Nếu cần reducer thường thì thêm vào đây
 	extraReducers: (builder) => {
@@ -75,7 +81,7 @@ const authSlice = createSlice({
 					state.session = action.payload.session;
 				}
 			)
-			.addCase(signOut.type, (state) => {
+			.addCase(logoutUser.fulfilled, (state) => {
 				state.user = null;
 				state.session = null;
 			});
@@ -83,6 +89,6 @@ const authSlice = createSlice({
 });
 
 // Export các action và reducer
-export const { signOut } = authSlice.actions;
+export const { setUser } = authSlice.actions;
 
 export default authSlice.reducer;

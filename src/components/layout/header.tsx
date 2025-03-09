@@ -2,10 +2,11 @@ import "./index.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../core/store/store";
-import { signOut } from "../../core/store/authSlice";
+import { AppDispatch, RootState } from "../../core/store/store";
+import { logoutUser } from "../../core/store/authSlice";
+
 export default function Header() {
-	const dispath = useDispatch();
+	const dispath = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
 
 	const { user } = useSelector((state: RootState) => state.auth);
@@ -17,7 +18,7 @@ export default function Header() {
 	}
 
 	const logOut = function () {
-		dispath(signOut());
+		dispath(logoutUser());
 		navigate("/auth/login");
 	};
 	return (

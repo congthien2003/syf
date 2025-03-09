@@ -26,7 +26,6 @@ export default function StorePage() {
 
 	const navigate = useNavigate();
 	const { user } = useSelector((state: RootState) => state.auth);
-	console.log(user);
 
 	useEffect(() => {
 		if (!user) {
@@ -35,7 +34,7 @@ export default function StorePage() {
 	}, [user, navigate]);
 
 	const [markdown, setMarkdown] = useState<string>(
-		"## Mô tả\nNhập mô tả ở đây..."
+		"## Description \nInput description here..."
 	);
 	const [code, setCode] = useState<string>("console.log('Hello, world!');");
 
@@ -60,13 +59,14 @@ export default function StorePage() {
 		// TODO: Save markdown and code to database
 		setisEditDescription(false);
 		formatCode();
-		const { data, error } = await addSnippet(
+		const { error } = await addSnippet(
+			functionName,
 			markdown,
 			code,
 			user.id,
-			selectedLanguage
+			selectedLanguage.toLowerCase(),
+			user.email
 		);
-		console.log(data);
 		if (error) {
 			dispatch(hideLoading());
 			toaster.error({
@@ -137,19 +137,6 @@ export default function StorePage() {
 								Save
 							</Button>
 						</div>
-
-						{/* <Modal
-							codeLanguage={selectedLanguage}
-							codeValue={code}
-							isOpen={isOpen}
-							onClose={() => setIsOpen(false)}
-							onConfirm={(desc) => {
-								console.log("Confirmed:", desc);
-								setIsOpen(false);
-								setMarkdown(desc);
-							}}
-							onRetry={() => console.log("Retrying...")}
-						/> */}
 					</div>
 					<div className="mb-4 flex flex-col">
 						<h4 className="mb-2">Function Name</h4>
@@ -231,21 +218,36 @@ export default function StorePage() {
 							</Button>
 						</div>
 					</div>
-
 					<Editor
 						className="editor"
-						height="80vh"
-						defaultLanguage="javascript"
+						height="70vh"
+						defaultLanguage={selectedLanguage.toLowerCase()}
 						value={code}
 						onMount={handleEditorDidMount}
 						onChange={(value) => setCode(value || "")}
 						theme="vs-dark"
+						beforeMount={(monaco) => {
+							monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions(
+								{
+									noSyntaxValidation: true, // 🚀 Disable syntax validation
+								}
+							);
+						}}
 						options={{
 							automaticLayout: true,
 							formatOnType: true,
 							formatOnPaste: true,
+							smoothScrolling: true,
+							scrollbar: {
+								vertical: "visible",
+								horizontal: "hidden",
+							},
 							minimap: {
 								enabled: false,
+							},
+							padding: {
+								top: 4,
+								bottom: 4,
 							},
 							fontSize: 16,
 							fontWeight: "450",
