@@ -1,1 +1,9 @@
 /// <reference types="vite/client" />
+VITE_SUPABASE_URL = "https://bvocjqbknxvlcmsgjlaw.supabase.co";
+VITE_SUPABASE_ANON_KEY =
+	"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2b2NqcWJrbnh2bGNtc2dqbGF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc2MjE4MzYsImV4cCI6MjA1MzE5NzgzNn0.hR5wnnEpE0nNh_rNsjlRwDdZzUI94dWbQKEWidRZpMI";
+
+VITE_GEMINI_API_KEY =
+	"5ad699a924a93f0dcca0786c3ccd0fd2d159d6d5b6ab5c4292b8809c0f4500c4";
+VITE_TOGETHER_API_KEY =
+	"5ad699a924a93f0dcca0786c3ccd0fd2d159d6d5b6ab5c4292b8809c0f4500c4";

@@ -1,40 +1,92 @@
-import { Button } from "@chakra-ui/react";
-import { useColorMode } from "../ui/color-mode";
 import "./index.css";
-import { BrowserRouter, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../core/store/store";
+import { logoutUser } from "../../core/store/authSlice";
+
 export default function Header() {
-	const { colorMode, toggleColorMode } = useColorMode();
+	const dispath = useDispatch<AppDispatch>();
+	const navigate = useNavigate();
+
+	const { user } = useSelector((state: RootState) => state.auth);
+	console.log(user);
+	const [selectedNav, setSelectedNav] = useState(1);
+
+	function handleSelectedNav(selectedNav: number): void {
+		setSelectedNav(selectedNav);
+	}
+
+	const logOut = function () {
+		dispath(logoutUser());
+		navigate("/auth/login");
+	};
 	return (
 		<>
 			<div className="header">
 				<div className="container mx-auto flex algin-middle justify-between px-4 py-2">
 					<div className="logo">My Logo</div>
 					<nav className="nav flex gap-4 ">
-						<BrowserRouter>
-							<Link to="/Home" className="header__navbar-item">
-								Home
-							</Link>
-							<Link to="/about" className="header__navbar-item">
-								About
-							</Link>
-						</BrowserRouter>
+						<Link
+							to="/"
+							className={`${
+								selectedNav === 1
+									? "header__navbar-item navbar-item-active"
+									: "header__navbar-item"
+							}`}
+							onClick={() => handleSelectedNav(1)}>
+							Home
+						</Link>
+						<Link
+							to="/storing"
+							className={`${
+								selectedNav === 2
+									? "header__navbar-item navbar-item-active"
+									: "header__navbar-item"
+							}`}
+							onClick={() => handleSelectedNav(2)}>
+							Storing
+						</Link>
+						<Link
+							to="/dashboard"
+							className={`${
+								selectedNav === 3
+									? "header__navbar-item navbar-item-active"
+									: "header__navbar-item"
+							}`}
+							onClick={() => handleSelectedNav(3)}>
+							Sharing
+						</Link>
 					</nav>
+
 					<div className="auth">
-						<BrowserRouter>
-							<Link
-								className="header__navbar-item"
-								to="/auth/login">
-								Login
-							</Link>
-							<Link
-								to="/auth/register"
-								className="header__navbar-item">
-								Register
-							</Link>
-						</BrowserRouter>
-						<Button onClick={toggleColorMode} size="sm">
-							{colorMode === "light" ? "Dark Mode" : "Light Mode"}
-						</Button>
+						{!user ? (
+							<>
+								<Link
+									to="/auth/login"
+									className={`${
+										selectedNav === 4
+											? "header__navbar-item navbar-item-active"
+											: "header__navbar-item"
+									}`}>
+									Login
+								</Link>
+								<Link
+									to="/auth/register"
+									className={`${
+										selectedNav === 5
+											? "header__navbar-item navbar-item-active"
+											: "header__navbar-item"
+									}`}>
+									Register
+								</Link>
+							</>
+						) : (
+							<div className="user-info">
+								<span className="mr-4">{user.email}</span>
+								<button onClick={logOut}>Logout</button>
+							</div>
+						)}
 					</div>
 				</div>
 			</div>

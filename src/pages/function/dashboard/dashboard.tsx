@@ -1,141 +1,140 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./style.css";
 import ButtonView from "../../../components/ui/button-view/button-view";
 import { Avatar } from "../../../components/ui/avatar";
-import { Checkbox } from "../../../components/ui/checkbox";
-import { ListLanguages } from "../../../const/listLanguage";
-export default function Dashboard() {
-	const [filterLang, setFilterLang] = useState("");
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { getList } from "../../../core/services/SnippetsService";
+import { Snippet } from "../../../core/interface/Snippets";
+import Pagination from "../../../components/ui/pagination/Pagination";
 
-	const listLanguage = ListLanguages.map((item) => (
-		<Checkbox
-			size="sm"
-			key={item.value}
-			variant={"subtle"}
-			colorPalette={"green"}
-			checked={filterLang == item.value}
-			onClick={() => setFilterLang(item.value)}>
-			{item.label}
-		</Checkbox>
-	));
+export default function Dashboard() {
+	const [page, setPage] = useState(1);
+	const [pageSize] = useState(10);
+	const [search, setSearch] = useState("");
+	const [filter] = useState([]);
+
+	const { data } = useQuery({
+		queryKey: ["snippets", page, pageSize, search, filter],
+		queryFn: () =>
+			getList({
+				page,
+				pageSize,
+				search,
+				filter, // Lọc theo ngôn ngữ
+			}),
+		placeholderData: keepPreviousData,
+	});
+
+	const handleChangePage = (newPage: number) => {
+		setPage(newPage);
+	};
+
+	// const handleFilter = (newValue: string) => {
+	// 	const array: string[] = [];
+	// 	const index = array.indexOf(newValue);
+	// 	if (index === -1) {
+	// 		console.log(array);
+
+	// 		// Nếu chưa có, thêm vào
+	// 		return [...array, newValue];
+	// 	} else {
+	// 		return array.filter((_, i) => i !== index);
+	// 	}
+	// };
+
 	return (
-		<>
-			<div className="dashboard">
-				<div
-					id="slider"
-					className="flex items-center justify-center flex-col">
-					<div className="slider-content flex items-center justify-center flex-col">
-						<h2>Share Your Function</h2>
-						<p>You can add, edit, and delete your function here.</p>
-					</div>
-					<div className="search">
-						{/* <Input placeholder="Enter function name" /> */}
-						<input type="text" placeholder="Enter function name" />
-						<button className="btn-search">
-							Search
-							<i className="fa fa-search" aria-hidden="true"></i>
-						</button>
+		<div className="dashboard">
+			<div className="container">
+				{/* Header Section */}
+				<div className="header">
+					<h1>Discover Functions</h1>
+					<p>
+						Explore and find the perfect function for your project
+					</p>
+					{/* Search and Filter Bar */}
+					<div className="search-filter-container">
+						<div className="search-input-wrapper">
+							<input
+								type="text"
+								placeholder="Search functions..."
+								value={search}
+								onChange={(e) => setSearch(e.target.value)}
+								className="search-input"
+							/>
+						</div>
+						{/* <div className="filter-tags">
+						{ListLanguages.map((lang) => (
+							<button
+								onClick={() => handleFilter(lang.value)}
+								className={`filter-tag ${
+									filter.includes(lang.value) ? "active" : ""
+								}`}>
+								{lang.label}
+							</button>
+						))}
+					</div> */}
 					</div>
 				</div>
-				<div className="container flex justify-center">
-					<div className="content">
-						<div className="list-filter">
-							<h3>Filter</h3>
-							<div className="filter">
-								<h4 className="px-1 mb-2 text-sm text-gray-dark">
-									Language
-								</h4>
-								<div className="filter-item flex flex-col pl-4">
-									{listLanguage}
+
+				{/* Function List */}
+				<div className="function-list">
+					{data?.data?.map((snippet: Snippet) => (
+						<div key={snippet.id} className="function-card">
+							<div className="card-content">
+								<div className="card-info">
+									<h2 className="function-title">
+										{snippet.name}
+									</h2>
+									<div className="metadata">
+										<div className="metadata-item">
+											<Avatar
+												name={snippet.author_name}
+												size="sm"
+											/>
+											<span>{snippet.author_name}</span>
+										</div>
+										<div className="metadata-item">
+											<i className="fas fa-calendar text-blue-500"></i>
+											<span>
+												{new Date(
+													snippet.created_at
+												).toLocaleDateString()}
+											</span>
+										</div>
+										<div className="metadata-item">
+											<i className="fas fa-code text-green-500"></i>
+											<span>{snippet.language}</span>
+										</div>
+										<div className="metadata-item">
+											<i className="fas fa-eye text-purple-500"></i>
+											<span>{snippet.views} views</span>
+										</div>
+										<div className="metadata-item">
+											<i className="fas fa-heart text-red-500"></i>
+											<span>{snippet.likes} likes</span>
+										</div>
+									</div>
+								</div>
+								<div className="card-actions">
+									<ButtonView
+										name="View Details"
+										to={`/view/${snippet.id}`}></ButtonView>
 								</div>
 							</div>
 						</div>
-						<div className="list">
-							<div className="list__header flex items-center justify-between">
-								<h4>List Function</h4>
-							</div>
-							<li className="info-container">
-								<div className="info">
-									<h5 className="name">Config Program.cs</h5>
-									<p className="description">
-										Config the .NET Core WebApi Project
-									</p>
-									<div className="author flex align-center items-center">
-										<p className="flex align-center items-center gap-2">
-											<Avatar name="Sabo" size="xs" />
-											Sabo
-										</p>
-										<p>Date: 12/12/2021</p>
-									</div>
-								</div>
-								<div className="action">
-									<ButtonView name="View Code"></ButtonView>
-								</div>
-							</li>
-							<li className="info-container">
-								<div className="info">
-									<h5 className="name">Function Name</h5>
-									<p className="description">
-										Function Description
-									</p>
-									<div className="author">
-										<p>Author: John Doe</p>
-										<p>Date: 12/12/2021</p>
-									</div>
-								</div>
-								<div className="action">
-									<ButtonView name="View Code"></ButtonView>
-								</div>
-							</li>
-							<li className="info-container">
-								<div className="info">
-									<h5 className="name">Function Name</h5>
-									<p className="description">
-										Function Description
-									</p>
-									<div className="author">
-										<p>Author: John Doe</p>
-										<p>Date: 12/12/2021</p>
-									</div>
-								</div>
-								<div className="action">
-									<ButtonView name="View Code"></ButtonView>
-								</div>
-							</li>
-							<li className="info-container">
-								<div className="info">
-									<h5 className="name">Function Name</h5>
-									<p className="description">
-										Function Description
-									</p>
-									<div className="author">
-										<p>Author: John Doe</p>
-										<p>Date: 12/12/2021</p>
-									</div>
-								</div>
-								<div className="action">
-									<ButtonView name="View Code"></ButtonView>
-								</div>
-							</li>
-							<li className="info-container">
-								<div className="info">
-									<h5 className="name">Function Name</h5>
-									<p className="description">
-										Function Description
-									</p>
-									<div className="author">
-										<p>Author: John Doe</p>
-										<p>Date: 12/12/2021</p>
-									</div>
-								</div>
-								<div className="action">
-									<ButtonView name="View Code"></ButtonView>
-								</div>
-							</li>
-						</div>
-					</div>
+					))}
+				</div>
+
+				{/* Pagination */}
+				<div className="pagination-container">
+					<Pagination
+						page={page}
+						total={data?.total ?? 0}
+						pageSize={pageSize}
+						onPageChange={handleChangePage}
+					/>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 }

@@ -1,15 +1,20 @@
-import React from "react";
-
 type Props = {
 	name: string;
+	to?: string;
 };
 
 import "./style.css";
+import { useNavigate } from "react-router";
 
-export default function ButtonView({ name }: Props) {
+export default function ButtonView({ name, to }: Props) {
+	const navigate = useNavigate();
 	return (
 		<>
-			<button className="cssbuttons-io">
+			<button
+				className="cssbuttons-io"
+				onClick={() => {
+					navigate(to ?? "/");
+				}}>
 				<span>
 					<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 						<path d="M0 0h24v24H0z" fill="none"></path>

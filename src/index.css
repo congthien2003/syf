@@ -1,10 +1,14 @@
 @tailwind components;
 @tailwind utilities;
-
 html {
 	scrollbar-width: thin; /* For Firefox */
 	overflow-y: auto;
 	transition: all 0.1s ease-in-out;
+}
+
+* {
+	font-family: "DM Sans", "Roboto", "Teko", serif;
+	box-sizing: border-box;
 }
 
 #root {
@@ -12,5 +16,14 @@ html {
 	align-items: center;
 	justify-content: center;
 	width: 100%;
-	font-family: "Afacad Flux", "Poppins" !important;
 }
+/* 
+h1 {
+	font-size: 20px !important;
+	font-weight: bold !important;
+}
+
+h2 {
+	font-size: 18px !important;
+	font-weight: bold !important;
+} */

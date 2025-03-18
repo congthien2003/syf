@@ -8,25 +8,11 @@ module.exports = {
 			lg: "976px",
 			xl: "1440px",
 		},
-		colors: {
-			blue: "#1fb6ff",
-			purple: "#7e5bef",
-			pink: "#ff49db",
-			orange: "#ff7849",
-			green: "#13ce66",
-			yellow: "#ffc82c",
-			"gray-dark": "#273444",
-			gray: "#8492a6",
-			"gray-light": "#d3dce6",
-		},
-		extend: {
-			spacing: {
-				"8xl": "96rem",
-				"9xl": "128rem",
-			},
-			borderRadius: {
-				"4xl": "2rem",
-			},
+		extend: {},
+		backgroundImage: {
+			"dark-gradient":
+				"linear-gradient(90deg, rgba(95,160,178,1) 0%, rgba(50,50,163,1) 35%, rgba(0,212,255,1) 100%)",
 		},
 	},
+	plugins: [require("@tailwindcss/typography")],
 };
