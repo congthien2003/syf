@@ -8,8 +8,10 @@ type Props = {
 
 export default function CodeEditor(props: Props) {
 	return (
-		<SyntaxHighlighter language={props.language} style={atomOneDark}>
-			{props.code}
-		</SyntaxHighlighter>
+		<>
+			<SyntaxHighlighter language={props.language} style={atomOneDark}>
+				{props.code}
+			</SyntaxHighlighter>
+		</>
 	);
 }

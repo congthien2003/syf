@@ -13,7 +13,7 @@ interface AuthState {
 
 // Trạng thái mặc định
 const initialState: AuthState = {
-	user: localStorage.getItem("authUser") || "",
+	user: null,
 	session: JSON.parse(localStorage.getItem("supabaseSession")!) || null,
 	loading: false,
 	error: null,
@@ -56,7 +56,8 @@ const authSlice = createSlice({
 	initialState,
 	reducers: {
 		setUser: (state, action) => {
-			state.user = action.payload;
+			state.user = action.payload.user;
+			state.session = action.payload;
 		},
 	}, // Nếu cần reducer thường thì thêm vào đây
 	extraReducers: (builder) => {

@@ -10,10 +10,12 @@ import ViewPage from "./pages/function/detail/viewDetail";
 import Loading from "./components/ui/loading/loading";
 import { Toaster } from "./components/ui/toaster";
 import YourFunctions from "./pages/function/yourfunction/yourFunction";
+import AuthProvider from "./hooks/authProvider";
+import EditPage from "./pages/function/detail/edit";
 function App() {
 	return (
 		<>
-			<AuthProvider />
+			{/* <AuthProvider /> */}
 			<Loading />
 			<Toaster />
 			<BrowserRouter>

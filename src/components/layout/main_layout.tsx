@@ -8,17 +8,18 @@ import {
 	FaUserPlus,
 	FaCode,
 } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { logoutUser } from "../../core/store/authSlice";
-import { AppDispatch, RootState } from "../../core/store/store";
+import { AppDispatch } from "../../core/store/store";
 import { Avatar } from "../ui/avatar";
 import { Button } from "../ui/button";
+import { useAuth } from "../../hooks/useAuth";
 
 const MainLayout = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
 	const location = useLocation();
-	const { user } = useSelector((state: RootState) => state.auth);
+	const user = useAuth();
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [url, setURL] = useState("/");
 

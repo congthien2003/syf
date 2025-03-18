@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { SelectRoot } from "../select";
 import { generateText } from "../../../core/services/geminiService";
+import { toaster } from "../toaster";
 
 interface ModalProps {
 	codeValue: string;
@@ -16,7 +17,6 @@ interface ModalProps {
 	isOpen: boolean;
 	onClose: () => void;
 	onConfirm: (description: string) => void;
-	onRetry: () => void;
 }
 
 const Modal = ({
@@ -25,7 +25,6 @@ const Modal = ({
 	isOpen,
 	onClose,
 	onConfirm,
-	onRetry,
 }: ModalProps) => {
 	const [language, setLanguage] = useState("eng");
 	const listLanguage = createListCollection({
@@ -34,6 +33,7 @@ const Modal = ({
 			{ label: "English", value: "eng" },
 		],
 	});
+	const [generated, setGenerated] = useState(false);
 	const [description, setDescription] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -41,12 +41,24 @@ const Modal = ({
 		setIsLoading(true);
 		setDescription("Generating...");
 		const repsonse = await generateText(language, codeValue, codeLanguage);
-		console.log(repsonse);
 		setDescription(repsonse ?? "Error");
-		setIsLoading(false);
-	};
+		if (repsonse === null) {
+			setDescription("Error");
+			toaster.error({
+				title: "Description generated failed",
+				duration: 2500,
+			});
+		} else {
+			setDescription(repsonse);
+			toaster.success({
+				title: "Description generated successfully",
+				duration: 2500,
+			});
+		}
 
-	console.log(codeValue);
+		setIsLoading(false);
+		setGenerated(true);
+	};
 
 	if (!isOpen) return null;
 
@@ -94,16 +106,13 @@ const Modal = ({
 						onClick={onClose}>
 						Cancel
 					</Button>
-					<Button colorPalette="blue" onClick={handleGenerate}>
-						Generate
+					<Button colorPalette="red" onClick={handleGenerate}>
+						{generated ? "Retry" : "Generate"}
 					</Button>
 					<Button
-						colorPalette="blue"
+						colorPalette="black"
 						onClick={() => onConfirm(description)}>
 						Confirm
-					</Button>
-					<Button colorPalette="green" onClick={onRetry}>
-						Retry
 					</Button>
 				</div>
 			</div>

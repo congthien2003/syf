@@ -14,12 +14,12 @@ const Pagination: React.FC<PaginationProps> = ({
 	onPageChange,
 }) => {
 	const totalPages = Math.ceil(total / pageSize);
-	const maxVisiblePages = 1;
+	const maxVisiblePages = 6;
 
 	// Tạo mảng số trang hiển thị
 	const getPages = () => {
 		let start = Math.max(1, page - Math.floor(maxVisiblePages / 2));
-		let end = Math.min(totalPages, start + maxVisiblePages - 1);
+		const end = Math.min(totalPages, start + maxVisiblePages - 1);
 
 		if (end - start < maxVisiblePages - 1) {
 			start = Math.max(1, end - maxVisiblePages + 1);
@@ -31,7 +31,7 @@ const Pagination: React.FC<PaginationProps> = ({
 	return (
 		<div className="flex justify-center items-center space-x-2 mt-4">
 			<button
-				className={`px-3 py-1 border rounded ${
+				className={`px-3 py-1 border rounde cursor-pointerd ${
 					page === 1
 						? "opacity-50 cursor-not-allowed"
 						: "hover:bg-gray-200"
@@ -44,7 +44,7 @@ const Pagination: React.FC<PaginationProps> = ({
 			{getPages().map((p) => (
 				<button
 					key={p}
-					className={`px-3 py-1 border rounded ${
+					className={`px-3 py-1 border rounded cursor-pointer ${
 						p === page
 							? "bg-blue-500 text-white"
 							: "hover:bg-gray-200"
@@ -55,7 +55,7 @@ const Pagination: React.FC<PaginationProps> = ({
 			))}
 
 			<button
-				className={`px-3 py-1 border rounded ${
+				className={`px-3 py-1 border rounded cursor-pointer ${
 					page === totalPages
 						? "opacity-50 cursor-not-allowed"
 						: "hover:bg-gray-200"

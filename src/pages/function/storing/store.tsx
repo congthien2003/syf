@@ -20,12 +20,14 @@ import { ListLanguages } from "../../../const/listLanguage";
 import { createListCollection } from "@chakra-ui/react/collection";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
-import { functionStructures } from "../../../const/structureDesc";
+import Modal from "../../../components/ui/gemini-modal/GeminiModal";
+import { useAuth } from "../../../hooks/useAuth";
+
 export default function StorePage() {
 	const dispatch = useDispatch();
 
 	const navigate = useNavigate();
-	const { user } = useSelector((state: RootState) => state.auth);
+	const user = useAuth();
 
 	useEffect(() => {
 		if (!user) {
@@ -53,6 +55,8 @@ export default function StorePage() {
 	const [isEditDescription, setisEditDescription] = useState<boolean>(true);
 
 	const [functionName, setFunctionName] = useState("Test Function");
+
+	const [isOpen, setisOpen] = useState(false);
 
 	const save = async () => {
 		dispatch(showLoading());
@@ -89,20 +93,6 @@ export default function StorePage() {
 	});
 
 	const [selectedLanguage, setSelectedLanguage] = useState("Javascript");
-	// const [isOpen, setIsOpen] = useState(false);
-	const structure = functionStructures;
-	const [selectedStructure, setSelectedStructure] = useState(0);
-	const generate = function () {
-		const random: number = Math.floor(Math.random() * 3);
-		// TODO: Generate markdown description
-		if (selectedStructure != random) {
-			setSelectedStructure(random);
-			setMarkdown(structure[random]);
-		} else {
-			// TODO: Generate markdown description again with different structure
-			setMarkdown(structure[0]);
-		}
-	};
 
 	return (
 		<>
@@ -118,7 +108,7 @@ export default function StorePage() {
 							<Button
 								className="rounded-lg active:bg-gray-300"
 								variant={"outline"}
-								onClick={generate}>
+								onClick={() => setisOpen(true)}>
 								<svg
 									height={20}
 									width={20}
@@ -199,7 +189,7 @@ export default function StorePage() {
 												key={item.value}
 												onClick={() =>
 													setSelectedLanguage(
-														item.label
+														item.value
 													)
 												}>
 												{item.label}
@@ -257,6 +247,20 @@ export default function StorePage() {
 					/>
 				</div>
 			</div>
+
+			<Modal
+				codeValue={code}
+				codeLanguage={selectedLanguage}
+				isOpen={isOpen}
+				onClose={() => setisOpen(false)}
+				onConfirm={function (description: string) {
+					setMarkdown(description);
+					setisOpen(false);
+					toaster.success({
+						title: "Description saved successfully",
+						duration: 2000,
+					});
+				}}></Modal>
 		</>
 	);
 }

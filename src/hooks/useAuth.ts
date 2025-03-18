@@ -1,24 +1,23 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import supabase from "../utils/supabase";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../core/store/store";
+import { logoutUser } from "../core/store/authSlice";
 
 export function useAuth() {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const [user, setUser] = useState<any>(null);
-	const navigate = useNavigate();
+	const dispatch = useDispatch<AppDispatch>();
+	const session = JSON.parse(localStorage.getItem("supabaseSession") || "");
 
-	useEffect(() => {
-		const checkAuth = async () => {
-			const { data, error } = await supabase.auth.getUser();
-			if (error || !data.user) {
-				navigate("/auth/login"); // Chuyển hướng nếu chưa đăng nhập
-			} else {
-				setUser(data.user);
-			}
-		};
-
-		checkAuth();
-	}, [navigate]);
-
-	return user; // Trả về user nếu cần sử dụng trong component
+	if (session) {
+		const now = Math.floor(Date.now() / 1000); // Giây
+		if (session.expires_at < now) {
+			// Xử lý logout hoặc refresh
+			localStorage.removeItem("supabaseSession");
+			dispatch(logoutUser());
+			return null;
+		} else {
+			return session.user;
+		}
+	} else {
+		return null;
+	}
 }

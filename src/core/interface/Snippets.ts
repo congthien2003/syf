@@ -9,4 +9,6 @@ export interface Snippet {
 	updated_at: Date;
 	language: string;
 	views: number;
+	public: boolean;
+	likes: number;
 }

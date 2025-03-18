@@ -1,32 +1,53 @@
 import { Button } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import "../utils/shared.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../core/store/store";
+import { logoutUser } from "../core/store/authSlice";
+import { useAuth } from "../hooks/useAuth";
 export default function Home() {
-	const navigate = useNavigate();
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+	const dispatch = useDispatch<AppDispatch>();
+
+	const navigate = useNavigate();
+	const user = useAuth();
+	const [isLogin, setIsLogin] = useState(false);
+
+	useEffect(() => {
+		if (user) {
+			setIsLogin(true);
+		}
+	}, [user, navigate]);
+
+	const logOut = () => {
+		dispatch(logoutUser());
+		navigate("/auth/login");
+	};
+
+	const handleGetStarted = () => {
+		if (user) {
+			navigate("/storing");
+		} else {
+			navigate("/auth/login");
+		}
+	};
+
 	return (
 		<div className="min-h-screen w-full bg-gradient-to-b from-white to-gray-200">
-			<header className="w-full py-4 bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
-				<div className="container mx-auto flex justify-between h-full  items-center px-4 lg:px-6">
+			<header className="w-full py-3 md:py-4 bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+				<div className="container mx-auto flex justify-between items-center px-4">
 					{/* Logo */}
-					<div className="hidden items-center gap-2 ">
-						<h1 className="text-sm text-black font-bold  px-2 py-2 rounded-lg ">
-							<i
-								className="fa fa-code mr-1"
-								aria-hidden="true"></i>{" "}
-							Sharing Your Function
-						</h1>
-					</div>
 					<div className="flex items-center gap-2">
-						<h1 className="text-sm md:text-base text-black font-bold px-2 py-2 rounded-lg">
+						<h1 className="text-sm md:text-base text-black font-bold px-2 py-2 rounded-lg transition-all duration-300">
 							<i
 								className="fa fa-code mr-1"
 								aria-hidden="true"></i>
-							<span className="hidden sm:inline">
+							<span className="hidden lg:inline bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
 								Sharing Your Function
 							</span>
-							<span className="sm:hidden">SYF</span>
+							<span className="inline sm:hidden">SYF</span>
 						</h1>
 					</div>
 
@@ -64,28 +85,41 @@ export default function Home() {
 					</nav>
 
 					{/* Desktop Auth Buttons */}
-					<div className="hidden lg:flex items-center gap-3">
-						<Button
-							onClick={() => {
-								navigate("/auth/login");
-							}}
-							className="px-6 py-2 text-gray-700 bg-white rounded-lg hover:bg-gray-200 transition-all duration-200 font-medium">
-							Login
-						</Button>
-						<Button
-							onClick={() => {
-								navigate("/auth/register");
-							}}
-							className="px-6 py-2 text-white font-medium rounded-lg bg-gradient-to-r  transition-all duration-200 shadow-lg shadow-gray-500/30 hover:shadow-gray-500/50">
-							Register
-						</Button>
-					</div>
+					{isLogin ? (
+						<div className="hidden lg:flex items-center gap-3">
+							<Button className="px-6 py-2 text-gray-700 bg-white rounded-lg hover:bg-gray-200 transition-all duration-200 font-medium">
+								{user.email}
+							</Button>
+							<Button
+								onClick={logOut}
+								className="px-6 py-2 text-white font-medium rounded-lg bg-gradient-to-r  transition-all duration-200 shadow-lg shadow-gray-500/30 hover:shadow-gray-500/50">
+								Log Out
+							</Button>
+						</div>
+					) : (
+						<div className="hidden lg:flex items-center gap-3">
+							<Button
+								onClick={() => {
+									navigate("/auth/login");
+								}}
+								className="px-6 py-2 text-gray-700 bg-white rounded-lg hover:bg-gray-200 transition-all duration-200 font-medium">
+								Login
+							</Button>
+							<Button
+								onClick={() => {
+									navigate("/auth/register");
+								}}
+								className="px-6 py-2 text-white font-medium rounded-lg bg-gradient-to-r  transition-all duration-200 shadow-lg shadow-gray-500/30 hover:shadow-gray-500/50">
+								Register
+							</Button>
+						</div>
+					)}
 
 					{/* Mobile Menu */}
 					{isMenuOpen && (
 						<div
 							className={`
-          fixed inset-0 bg-white/80 backdrop-blur-md lg:hidden transition-transform duration-300 ease-in-out
+          fixed inset-0 bg-white lg:hidden transition-transform duration-300 ease-in-out
            "translate-x-full"
         `}>
 							<div className="flex flex-col h-full">
@@ -129,30 +163,39 @@ export default function Home() {
 				</div>
 			</header>
 
-			{/* Slider Section */}
-			<section className="w-full h-96 flex flex-col items-center justify-center text-white relative overflow-hidden">
+			{/* Hero Section */}
+			<section className="w-full min-h-[70vh] md:min-h-[80vh] flex flex-col items-center justify-center text-center relative overflow-hidden px-4 py-12 md:py-20">
 				<div className="absolute inset-0 background-gradient-blue opacity-10 bg-cover bg-center" />
-				<div className="z-10 text-center px-4">
-					<h1 className="text-5xl  text-gray-700 font-bold mb-4">
-						Share & Discover Useful Code Snippets
+				<div className="z-10 max-w-4xl mx-auto">
+					<h1 className="sm:text-2xl md:text-3xl lg:text-5xl text-gray-700 font-bold mb-4 leading-tight  text-center transition-all duration-300">
+						Share & Discover
+						<div className="text-blue-500 text-center mt-1">
+							Useful Code Snippets
+						</div>
 					</h1>
-					<p className="text-xl text-gray-500 mb-8">
+					<p className="text-base sm:text-lg md:text-xl text-gray-500 mb-8 max-w-2xl mx-auto leading-relaxed">
 						Collaborate with developers worldwide and find the code
 						you need
 					</p>
-					<Button className=" text-white bg-gray-900 hover:bg-gray-700 px-6 py-3 rounded-lg font-semibold transition-colors shadow-lg shadow-gray-500/30 hover:shadow-gray-500/50">
+					<Button
+						onClick={() => {
+							handleGetStarted();
+						}}
+						className="transform hover:scale-105 text-white bg-gray-900 hover:bg-gray-800 px-6 py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
 						<i
 							className="fa fa-archive mr-2"
-							aria-hidden="true"></i>{" "}
+							aria-hidden="true"></i>
 						Get Started
 					</Button>
 				</div>
 			</section>
 
-			<section className="max-w-6xl mx-auto py-20 px-4">
-				<h2 className="text-3xl font-bold text-center mb-12">
+			{/* Services Section */}
+			<section className="max-w-6xl mx-auto py-12 md:py-20 px-4">
+				<h2 className="text-2xl md:text-3xl md:mb-12 font-bold text-center mb-12">
 					Our Services
 				</h2>
+
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 					<div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col items-center text-center">
 						<i
