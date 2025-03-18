@@ -35,7 +35,7 @@ const Modal = ({
 	});
 	const [generated, setGenerated] = useState(false);
 	const [description, setDescription] = useState("");
-	const [isLoading, setIsLoading] = useState(false);
+	const [, setIsLoading] = useState(false);
 
 	const handleGenerate = async function () {
 		setIsLoading(true);

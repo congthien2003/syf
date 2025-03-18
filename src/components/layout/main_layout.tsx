@@ -20,8 +20,7 @@ const MainLayout = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const user = useAuth();
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const [url, setURL] = useState("/");
+	const [, setURL] = useState("/");
 
 	useEffect(() => {
 		setURL(location.pathname);
