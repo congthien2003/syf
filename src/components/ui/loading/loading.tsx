@@ -1,4 +1,3 @@
-import React from "react";
 import { Spinner, Center } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { selectLoading } from "../../../core/store/loadingSlice";
