@@ -38,6 +38,27 @@ export const signIn = createAsyncThunk(
 	}
 );
 
+// Action Sign up
+export const signUp = createAsyncThunk(
+	"auth/signUp",
+	async (
+		{ email, password }: { email: string; password: string },
+		{ rejectWithValue }
+	) => {
+		const { data, error } = await supabase.auth.signUp({
+			email,
+			password,
+		});
+		if (error) return rejectWithValue(error.message);
+
+		console.log(data);
+
+		// Lưu thông tin user vào localStorage
+		localStorage.setItem("supabaseSession", JSON.stringify(data.session));
+		return data;
+	}
+);
+
 // Action lấy session hiện tại
 export const fetchSession = createAsyncThunk("auth/fetchSession", async () => {
 	const { data } = await supabase.auth.getSession();
@@ -72,6 +93,19 @@ const authSlice = createSlice({
 				state.session = action.payload.session;
 			})
 			.addCase(signIn.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload as string;
+			})
+			.addCase(signUp.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
+			.addCase(signUp.fulfilled, (state, action: PayloadAction<any>) => {
+				state.loading = false;
+				state.user = action.payload.user;
+				state.session = action.payload.session;
+			})
+			.addCase(signUp.rejected, (state, action) => {
 				state.loading = false;
 				state.error = action.payload as string;
 			})
