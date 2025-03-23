@@ -1,6 +1,7 @@
 /* Base styles */
 .dashboard {
 	min-height: 100vh;
+	padding: 0.5em;
 }
 
 .container {

@@ -7,12 +7,11 @@ import {
 	FaSignInAlt,
 	FaUserPlus,
 	FaCode,
+	FaBars,
 } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../../core/store/authSlice";
 import { AppDispatch } from "../../core/store/store";
-import { Avatar } from "../ui/avatar";
-import { Button } from "../ui/button";
 import { useAuth } from "../../hooks/useAuth";
 
 const MainLayout = () => {
@@ -31,14 +30,24 @@ const MainLayout = () => {
 		navigate("/auth/login");
 	};
 
+	const [sidebarOpen, setSidebarOpen] = useState(false);
+
 	return (
 		<div className="flex h-screen w-screen bg-gray-100">
-			{/* Sidebar */}
-			<div className="w-64 bg-white border-r border-gray-200 shadow-lg flex flex-col">
+			{/* Sidebar (Desktop & Mobile) */}
+			<div
+				className={`fixed md:flex flex-col inset-y-0 left-0 w-64 bg-white border-r border-gray-200 shadow-lg transform ${
+					sidebarOpen ? "flex" : "hidden"
+				} transition-transform translate-x-full duration-300 ease-in-out md:relative md:translate-x-0 z-50 relative`}>
 				{/* Logo */}
 				<div className="h-16 flex items-center px-6 border-b border-gray-200">
-					<span className="text-xl font-semibold text-gray-900">
-						SYC
+					<span className="text-sm font-bold text-gray-900 flex items-center gap-2">
+						<img
+							src="src/assets/logo.png"
+							alt="logo"
+							className="w-[50px]"
+						/>
+						Sharing Your Function
 					</span>
 				</div>
 
@@ -71,7 +80,7 @@ const MainLayout = () => {
 				</nav>
 
 				{/* Auth Section */}
-				<div className="border-t border-gray-200 p-4">
+				<div className="mt-auto border-t border-gray-200 p-4">
 					{!user ? (
 						<div className="space-y-1">
 							<NavItem
@@ -89,23 +98,39 @@ const MainLayout = () => {
 						</div>
 					) : (
 						<div className="space-y-3">
-							<div className="flex align-center items-center gap-2 text-sm text-gray-600">
-								<Avatar name={user.email} size="xs" />
-								{user.email}
+							<div className="text-sm text-gray-600 text-wrap">
+								{/* <Avatar name={user.email} size="xs" /> */}
+								<span className="text-wrap">{user.email}</span>
 							</div>
-							<Button
+							<button
 								onClick={logOut}
-								className="w-full rounded-lg transition-colors duration-200">
+								className="w-full bg-blue-500 text-white px-1 py-1 lg:px-2 lg:py-1 rounded-lg transition-colors duration-200 hover:bg-blue-600">
 								Logout
-							</Button>
+							</button>
 						</div>
 					)}
 				</div>
 			</div>
 
 			{/* Main Content */}
-			<div className="flex-1 overflow-auto">
-				<main className="max-w-7xl mx-auto px-6 py-8">
+			<div className="flex-1 flex flex-col">
+				{/* Mobile Navbar */}
+				<div className="md:hidden p-2 opacity-80 bg-white border-b border-gray-200 shadow-md flex items-center justify-between">
+					<button
+						onClick={() => setSidebarOpen(!sidebarOpen)}
+						className="text-gray-600">
+						<FaBars size={24} />
+					</button>
+					<span className="text-lg font-semibold text-gray-900">
+						<img
+							src="src/assets/logo.png"
+							alt="logo"
+							className="w-[35px]"
+						/>
+					</span>
+				</div>
+
+				<main className="lg:flex-1 overflow-auto md:p-8">
 					<Outlet />
 				</main>
 			</div>
@@ -130,7 +155,7 @@ const NavItem = ({
 		<Link
 			to={to}
 			className={`
-        flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-200
+        flex items-center lg:gap-3 lg:px-3 lg:py-2 gap-2 px-2 py-2 rounded-lg transition-colors duration-200
         ${
 			isActive
 				? "bg-gray-300 text-gray-900"
@@ -143,7 +168,7 @@ const NavItem = ({
 				}`}>
 				{icon}
 			</span>
-			<span className="font-medium">{label}</span>
+			<span className="font-medium lg:text-base text-sm">{label}</span>
 		</Link>
 	);
 };
