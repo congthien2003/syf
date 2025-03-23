@@ -95,15 +95,15 @@ export default function StorePage() {
 
 	return (
 		<>
-			<div className="flex flex-col justify-between w-full gap-6 md:px-0 md:flex-row">
+			<div className="flex flex-col justify-between gap-6 md:px-0 md:flex-row">
 				{/* Markdown Editor */}
-				<div className="w-full md:w-1/2 p-6 border-r border-gray-300 bg-white shadow-lg rounded-lg">
-					<div className="flex items-center justify-between">
-						<h2 className="text-lg font-semibold mb-2">
+				<div className="w-full md:w-1/2 lg:p-6 p-3 border-r border-gray-300 bg-white shadow-lg rounded-lg">
+					<div className="flex items-center justify-between flex-col md:flex-row">
+						<h2 className="text-md lg:text-lg font-semibold mb-2">
 							📜 Markdown Description
 						</h2>
 
-						<div className="flex gap-2">
+						<div className="flex gap-4 lg:gap-2 items-center">
 							<Button
 								className="rounded-lg active:bg-gray-300"
 								variant={"outline"}
@@ -127,7 +127,7 @@ export default function StorePage() {
 							</Button>
 						</div>
 					</div>
-					<div className="mb-4 flex flex-col">
+					<div className="mb-4 flex flex-col mt-2">
 						<h4 className="mb-2">Function Name</h4>
 						<Input
 							placeholder="Input function name..."
@@ -140,15 +140,15 @@ export default function StorePage() {
 						{isEditDescription ? (
 							<textarea
 								onBlur={() => setisEditDescription(false)}
-								className="w-full h-1/2 p-2 border rounded  transition-all min-h-[400px] min-w-[570px] box-border"
+								className="w-full h-1/2 p-2 border rounded  transition-all min-h-[400px] md:min-w-[570px] box-border"
 								value={markdown}
 								onChange={(e) => setMarkdown(e.target.value)}
 							/>
 						) : (
 							<div
-								className="w-full p-2 border rounded bg-gray-50 min-h-[400px] min-w-[570px] transition-all box-border"
+								className="w-full p-2 border rounded bg-gray-50 min-h-[400px] md:min-w-[570px] transition-all box-border"
 								onClick={() => setisEditDescription(true)}>
-								<ReactMarkdown className="w-full max-w-full rounded  transition-all min-h-[400px] prose">
+								<ReactMarkdown className="w-full md:max-w-full rounded  transition-all min-h-[400px] prose">
 									{markdown}
 								</ReactMarkdown>
 							</div>
@@ -157,15 +157,15 @@ export default function StorePage() {
 				</div>
 
 				{/* Code Editor */}
-				<div className="w-1/2 md:w-1/2 py-3 px-6 border-r border-gray-300 bg-white shadow-lg rounded-lg">
+				<div className="md:w-1/2 py-3 px-6 border-r border-gray-300 bg-white shadow-lg rounded-lg">
 					<div
-						className="flex items-center justify-between mb-2
+						className="flex items-center justify-between mb-2 flex-col md:flex-row
 					">
-						<h2 className="text-lg font-semibold mb-2">
+						<h2 className="text-md lg:text-lg font-semibold mb-2">
 							💻 Code Editor
 						</h2>
 						<div className="flex items-center gap-4">
-							<span className="text-gray-500">
+							<span className="text-gray-500 hidden lg:block lg:text-base">
 								{editorRef.current
 									?.getModel()
 									?.getLineCount() ?? 1}{" "}
@@ -200,9 +200,9 @@ export default function StorePage() {
 
 							<Button
 								onClick={formatCode}
-								className="px-3 py-1 
-						 text-white rounded-lg  transition-all cursor-pointer">
-								<i className="fa-solid fa-wand-magic-sparkles mr-2"></i>
+								className="px-2 lg:px-3 lg:py-1 
+						 text-white rounded-lg text-xs transition-all cursor-pointer">
+								<i className="fa-solid fa-wand-magic-sparkles mr-1 lg:mr-2"></i>
 								Format Code
 							</Button>
 						</div>

@@ -135,13 +135,13 @@ const ViewPage = () => {
 		<div className="w-screen min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex justify-center p-6">
 			<div className="container max-w-[1400px] flex flex-col items-center gap-6">
 				{/* Header Card */}
-				<div className="w-full bg-white border backdrop-blur-sm bg-opacity-90 rounded-xl shadow-lg p-6">
+				<div className="w-full bg-white border backdrop-blur-sm bg-opacity-90 rounded-xl shadow-lg lg:p-6 p-4">
+					<h1 className="lg:text-3xl md:text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-gray-800 ">
+						{snippet?.name ?? "Function Name"}
+					</h1>
 					<div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-						<div className="space-y-2">
-							<h1 className="lg:text-3xl md:text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-gray-800 ">
-								{snippet?.name ?? "Function Name"}
-							</h1>
-							<div className="flex flex-wrap gap-4 items-center text-sm">
+						<div className="mt-2">
+							<div className="flex flex-wrap gap-2 lg:gap-4 items-center text-sm">
 								<div className="flex items-center gap-2">
 									<i className="fas fa-user text-blue-500"></i>
 									<span className="text-gray-600 font-medium">
@@ -181,33 +181,42 @@ const ViewPage = () => {
 								</div>
 							</div>
 						</div>
-						<Button
-							onClick={joinNow}
-							className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-2.5 rounded-lg font-medium transition-all duration-300 transform hover:scale-105">
-							{isLogin ? "Create Function" : "Join now !"}
-						</Button>
+						<div className="flex lg:flex-row-reverse items-end gap-4">
+							<Button
+								onClick={joinNow}
+								className="  text-white  lg:px-6 lg:py-3 px-3 py-1 rounded-lg font-medium transition-all duration-300 transform hover:scale-105">
+								{isLogin ? "Create Function" : "Join now !"}
+							</Button>
+							{isLogin && (
+								<Button
+									onClick={() => navigate("/sharing")}
+									className="  text-white lg:px-6 lg:py-3 px-3 py-1 rounded-lg font-medium transition-all duration-300 transform hover:scale-105">
+									Back to dashboard
+								</Button>
+							)}
+						</div>
 					</div>
 				</div>
 
 				<div className="flex flex-col lg:flex-row w-full gap-6">
 					{/* Description Card */}
-					<div className="flex-[40%] bg-white rounded-xl shadow-lg overflow-hidden">
+					<div className="lg:flex-[40%] bg-white rounded-xl shadow-lg overflow-hidden">
 						<div className="border-b bg-gradient-to-r from-gray-50 to-white p-2">
 							<h2 className="lg:text-xl md:text-sm font-semibold flex items-center gap-2 ">
 								<span className="text-2xl">📜</span>
 								Description
 							</h2>
 						</div>
-						<div className="p-6">
-							<div className="prose prose-sm md:prose-base max-w-none rounded-lg bg-gray-50 p-3">
+						<div className="lg:p-6 p-3">
+							<div className="prose prose-sm md:prose-base max-w-none max-h-full rounded-lg bg-gray-50 p-3">
 								<ReactMarkdown>{description}</ReactMarkdown>
 							</div>
 						</div>
 					</div>
 
 					{/* Code Card */}
-					<div className="flex-[60%] bg-white rounded-xl overflow-hidden">
-						<div className="border-b bg-gradient-to-r shadow-lg from-gray-50 to-white p-4">
+					<div className="lg:flex-[60%] bg-white rounded-xl overflow-hidden">
+						<div className="border-b bg-gradient-to-r shadow-lg from-gray-50 to-white md:p-4">
 							<div
 								style={style}
 								className="flex justify-between items-center">
@@ -232,14 +241,14 @@ const ViewPage = () => {
 										<circle r={12} cy={12} cx={12} />
 									</svg>
 								</div>
-								<span className="text-md text-gray-400 font-medium">
+								<span className="text-md text-gray-400 font-medium hidden lg:inline">
 									Code
 								</span>
 								<div className="flex items-center gap-3 px-2">
-									<span className="text-gray-400 font-medium">
+									<span className="text-gray-400 font-medium text-xs lg:text-base">
 										{code.split("\n").length ?? 0} lines
 									</span>
-									<span className="text-gray-400 font-medium">
+									<span className="text-gray-400 font-medium text-xs lg:text-base">
 										{snippet?.language.toLowerCase() ??
 											"none"}
 									</span>
@@ -247,7 +256,7 @@ const ViewPage = () => {
 										onClick={copyCode}
 										variant="subtle"
 										color="gray"
-										className=" hover:opacity-85 px-4 py-2 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
+										className=" hover:opacity-85 px-2 py-1 lg:px-4 lg:py-2 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
 										<i className="fas fa-copy"></i>
 										Copy
 									</Button>

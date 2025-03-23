@@ -5,26 +5,40 @@ import { useDispatch, useSelector } from "react-redux";
 import { signIn } from "../core/store/authSlice";
 import { useNavigate } from "react-router-dom";
 import { FaEnvelope, FaLock } from "react-icons/fa";
+import { showLoading, hideLoading } from "../core/store/loadingSlice";
 
 export default function LoginPage() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch<AppDispatch>();
-	const { loading, error } = useSelector((state: RootState) => state.auth);
+	const { error } = useSelector((state: RootState) => state.auth);
+	const loading = useSelector((state: RootState) => state.loading);
 
 	const emailRef = useRef<HTMLInputElement | null>(null);
 	const passwordRef = useRef<HTMLInputElement | null>(null);
+
 	const handleSubmit = async () => {
 		if (emailRef.current != null && passwordRef.current != null) {
 			const email = emailRef.current.value;
 			const password = passwordRef.current.value;
-			dispatch(signIn({ email, password }))
-				.unwrap()
-				.then(() => {
+
+			try {
+				// Show global loading indicator
+				dispatch(showLoading());
+
+				const result = await dispatch(
+					signIn({ email, password })
+				).unwrap();
+
+				if (result) {
 					navigate("/sharing");
-				})
-				.catch(() => {
-					navigate("/auth/login");
-				});
+				}
+			} catch (error) {
+				console.error("Login failed:", error);
+				navigate("/auth/login");
+			} finally {
+				// Hide global loading indicator
+				dispatch(hideLoading());
+			}
 		}
 	};
 
@@ -124,6 +138,7 @@ export default function LoginPage() {
 										boxShadow: "0 0 0 1px blue.500",
 									}}
 									_hover={{ bg: "gray.100" }}
+									disabled={loading.isLoading}
 								/>
 							</Box>
 
@@ -152,6 +167,7 @@ export default function LoginPage() {
 										boxShadow: "0 0 0 1px blue.500",
 									}}
 									_hover={{ bg: "gray.100" }}
+									disabled={loading.isLoading}
 								/>
 							</Box>
 
@@ -184,8 +200,11 @@ export default function LoginPage() {
 								position="relative"
 								overflow="hidden"
 								transition="all 0.3s ease"
-								disabled={loading}>
-								{loading ? "Logging in..." : "Sign In"}
+								disabled={loading.isLoading}
+								loadingText="Signing In...">
+								{loading.isLoading
+									? "Signing In..."
+									: "Sign In"}
 							</Button>
 
 							<Button
@@ -200,7 +219,8 @@ export default function LoginPage() {
 									color: "blue.500",
 									borderColor: "blue.500",
 								}}
-								transition="all 0.3s ease">
+								transition="all 0.3s ease"
+								disabled={loading.isLoading}>
 								Don't have an account? Sign up
 							</Button>
 						</form>
