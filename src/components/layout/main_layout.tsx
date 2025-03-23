@@ -41,8 +41,13 @@ const MainLayout = () => {
 				} transition-transform translate-x-full duration-300 ease-in-out md:relative md:translate-x-0 z-50 relative`}>
 				{/* Logo */}
 				<div className="h-16 flex items-center px-6 border-b border-gray-200">
-					<span className="text-xl font-semibold text-gray-900">
-						SYC
+					<span className="text-sm font-bold text-gray-900 flex items-center gap-2">
+						<img
+							src="src/assets/logo.png"
+							alt="logo"
+							className="w-[50px]"
+						/>
+						Sharing Your Function
 					</span>
 				</div>
 
@@ -99,7 +104,7 @@ const MainLayout = () => {
 							</div>
 							<button
 								onClick={logOut}
-								className="w-full bg-red-500 text-white p-2 rounded-lg transition-colors duration-200 hover:bg-red-600">
+								className="w-full bg-blue-500 text-white px-1 py-1 lg:px-2 lg:py-1 rounded-lg transition-colors duration-200 hover:bg-blue-600">
 								Logout
 							</button>
 						</div>
@@ -117,7 +122,11 @@ const MainLayout = () => {
 						<FaBars size={24} />
 					</button>
 					<span className="text-lg font-semibold text-gray-900">
-						SYC
+						<img
+							src="src/assets/logo.png"
+							alt="logo"
+							className="w-[35px]"
+						/>
 					</span>
 				</div>
 
@@ -146,7 +155,7 @@ const NavItem = ({
 		<Link
 			to={to}
 			className={`
-        flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-200
+        flex items-center lg:gap-3 lg:px-3 lg:py-2 gap-2 px-2 py-2 rounded-lg transition-colors duration-200
         ${
 			isActive
 				? "bg-gray-300 text-gray-900"
@@ -159,7 +168,7 @@ const NavItem = ({
 				}`}>
 				{icon}
 			</span>
-			<span className="font-medium">{label}</span>
+			<span className="font-medium lg:text-base text-sm">{label}</span>
 		</Link>
 	);
 };
