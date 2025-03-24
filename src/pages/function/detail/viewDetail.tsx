@@ -16,14 +16,7 @@ import { Button } from "../../../components/ui/button";
 import CodeEditor from "../../../components/ui/code-editor/code-editor";
 import { RootState } from "../../../core/store/store";
 import { Tabs } from "@chakra-ui/react";
-import { LuUser, LuFolder, LuSquareCheck } from "react-icons/lu";
-import {
-	FaArrowAltCircleLeft,
-	FaArrowAltCircleRight,
-	FaCode,
-	FaFile,
-	FaHashtag,
-} from "react-icons/fa";
+import { FaCode, FaFile, FaHashtag } from "react-icons/fa";
 
 const style = {
 	background: "rgb(40, 40, 48)",
