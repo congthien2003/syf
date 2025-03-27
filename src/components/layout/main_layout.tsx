@@ -148,7 +148,7 @@ const NavItem = ({
 		<Link
 			to={to}
 			className={`
-        flex items-center lg:gap-3 lg:px-3 lg:py-2 gap-2 px-2 py-2 rounded-lg transition-colors duration-200 mb-2
+        flex items-center lg:gap-3 lg:px-3 lg:py-2 gap-2 px-2 py-2 rounded-lg transition-colors duration-200 mb-2 min-w-[200px]
         ${
 			isActive
 				? "bg-gray-300 text-gray-900"
