@@ -135,10 +135,10 @@ const ViewPage = () => {
 
 	return (
 		<>
-			<div className="hidden md:flex w-screen min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 justify-center p-6">
+			<div className="hidden md:flex w-screen min-h-screen bg-white justify-center p-6">
 				<div className="container max-w-[1400px] flex flex-col items-center gap-6">
 					{/* Header Card */}
-					<div className="w-full bg-white border backdrop-blur-sm bg-opacity-90 rounded-xl shadow-lg lg:p-6 p-4">
+					<div className="w-full bg-white  backdrop-blur-sm bg-opacity-90 rounded-xl shadow-lg lg:p-6 p-4">
 						<h1 className="lg:text-3xl md:text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-gray-800 ">
 							{snippet?.name ?? "Function Name"}
 						</h1>
@@ -187,7 +187,7 @@ const ViewPage = () => {
 							<div className="flex lg:flex-row-reverse items-end gap-4">
 								<Button
 									onClick={joinNow}
-									className="  text-white  lg:px-6 lg:py-3 px-3 py-1 rounded-lg font-medium transition-all duration-300 transform hover:scale-105">
+									className="  text-white  lg:px-6 lg:py-3 px-3 py-1 rounded-lg  font-medium transition-all duration-300 transform hover:scale-105">
 									{isLogin ? "Create Function" : "Join now !"}
 								</Button>
 								{isLogin && (
@@ -205,7 +205,7 @@ const ViewPage = () => {
 						{/* Description Card */}
 						<div className="lg:flex-[40%] bg-white rounded-xl shadow-lg overflow-hidden">
 							<div className="border-b bg-gradient-to-r from-gray-50 to-white p-2">
-								<h2 className="lg:text-xl md:text-sm font-semibold flex items-center gap-2 ">
+								<h2 className="lg:text-xl md:text-sm  font-semibold flex items-center gap-2 ">
 									<span className="text-2xl">📜</span>
 									Description
 								</h2>
@@ -218,8 +218,8 @@ const ViewPage = () => {
 						</div>
 
 						{/* Code Card */}
-						<div className="lg:flex-[60%] bg-white rounded-xl overflow-hidden">
-							<div className="border-b bg-gradient-to-r shadow-lg from-gray-50 to-white md:p-4">
+						<div className="lg:flex-[60%] bg-white rounded-xl shadow-lg overflow-hidden">
+							<div className="shadow-lg from-gray-50 to-white md:p-4">
 								<div
 									style={style}
 									className="flex justify-between items-center">

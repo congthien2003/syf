@@ -1,1 +1,3 @@
-
+html {
+	color-scheme: light !important; /* Forces light mode */
+}

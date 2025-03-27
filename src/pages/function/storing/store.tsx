@@ -99,13 +99,13 @@ export default function StorePage() {
 				{/* Markdown Editor */}
 				<div className="w-full md:w-1/2 lg:p-6 p-3 border-r border-gray-300 bg-white shadow-lg rounded-lg">
 					<div className="flex items-center justify-between flex-col md:flex-row">
-						<h2 className="text-md lg:text-lg font-semibold mb-2">
+						<h2 className="text-md text-black lg:text-lg font-semibold mb-2">
 							📜 Markdown Description
 						</h2>
 
 						<div className="flex gap-4 lg:gap-2 items-center">
 							<Button
-								className="rounded-lg active:bg-gray-300"
+								className="rounded-lg active:bg-gray-300 text-black"
 								variant={"outline"}
 								onClick={() => setisOpen(true)}>
 								<svg
@@ -128,7 +128,7 @@ export default function StorePage() {
 						</div>
 					</div>
 					<div className="mb-4 flex flex-col mt-2">
-						<h4 className="mb-2">Function Name</h4>
+						<h4 className="mb-2 text-black">Function Name</h4>
 						<Input
 							placeholder="Input function name..."
 							value={functionName}
