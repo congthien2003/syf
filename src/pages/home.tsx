@@ -100,19 +100,19 @@ export default function Home() {
 					) : (
 						<div className="hidden lg:flex items-center gap-3">
 							<Button
+								variant={"ghost"}
 								onClick={() => {
 									navigate("/auth/login");
 								}}
-								className="px-6 py-2  rounded-lg hover:bg-gray-200 transition-all duration-200 font-medium">
+								className="px-6 py-2 rounded-lg transition-all duration-200 font-medium">
 								Login
 							</Button>
 							<Button
 								variant={"solid"}
-								color={"gray"}
 								onClick={() => {
 									navigate("/auth/register");
 								}}
-								className="px-6 py-2  font-medium rounded-lg transition-all duration-200 shadow-lg shadow-gray-500/30 hover:shadow-gray-500/50">
+								className="px-6 py-2 text-white  font-medium rounded-lg transition-all duration-200 shadow-lg shadow-gray-500/30 hover:shadow-gray-500/50">
 								Register
 							</Button>
 						</div>

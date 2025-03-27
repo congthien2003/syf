@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import "./style.css";
 import Modal from "../../../components/ui/gemini-modal/GeminiModal";
 import { useAuth } from "../../../hooks/useAuth";
+import ButtonGlow from "../../../components/ui/button-glow/button-glow";
 
 export default function StorePage() {
 	const dispatch = useDispatch();
@@ -105,8 +106,7 @@ export default function StorePage() {
 
 						<div className="flex gap-4 lg:gap-2 items-center">
 							<Button
-								className="rounded-lg active:bg-gray-300 text-black"
-								variant={"outline"}
+								className="rounded-lg active:bg-gray-300 text-black bg-gray-200 hover:bg-gray-300 transition-all cursor-pointer px-4 py-1"
 								onClick={() => setisOpen(true)}>
 								<svg
 									height={20}
@@ -121,7 +121,7 @@ export default function StorePage() {
 								Generate
 							</Button>
 							<Button
-								className="px-4 py-1 rounded-lg transition-all cursor-pointer"
+								className="px-4 py-1 rounded-lg transition-all cursor-pointer bg-black text-white hover:opacity-80"
 								onClick={save}>
 								Save
 							</Button>
@@ -198,13 +198,14 @@ export default function StorePage() {
 								</SelectRoot>
 							</div>
 
-							<Button
+							{/* <Button
 								onClick={formatCode}
 								className="px-2 lg:px-3 lg:py-1 
-						 text-white rounded-lg text-xs transition-all cursor-pointer">
-								<i className="fa-solid fa-wand-magic-sparkles mr-1 lg:mr-2"></i>
+						 text-white rounded-lg text-xs transition-all cursor-pointer bg-black hover:opacity-80">
 								Format Code
-							</Button>
+							</Button> */}
+							<ButtonGlow
+								onClick={() => formatCode()}></ButtonGlow>
 						</div>
 					</div>
 					<Editor

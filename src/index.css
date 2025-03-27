@@ -4,6 +4,7 @@ html {
 	scrollbar-width: thin; /* For Firefox */
 	overflow-y: auto;
 	transition: all 0.1s ease-in-out;
+	color-scheme: light !important;
 }
 
 * {
@@ -16,6 +17,5 @@ html {
 	align-items: center;
 	justify-content: center;
 	width: 100%;
-	color-scheme: light !important;
 	color: black;
 }

@@ -12,6 +12,7 @@ import { Toaster } from "./components/ui/toaster";
 import YourFunctions from "./pages/function/yourfunction/yourFunction";
 import EditPage from "./pages/function/detail/edit";
 import { Analytics } from "@vercel/analytics/react";
+import ForgotPassword from "./pages/forgot-password";
 function App() {
 	return (
 		<>
@@ -34,6 +35,10 @@ function App() {
 					<Route path="view/:id" element={<ViewPage />} />{" "}
 					<Route path="auth/login" element={<LoginPage />} />{" "}
 					<Route path="auth/register" element={<RegisterPage />} />{" "}
+					<Route
+						path="auth/forgot-password"
+						element={<ForgotPassword />}
+					/>{" "}
 				</Routes>
 			</BrowserRouter>
 		</>
