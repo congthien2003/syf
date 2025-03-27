@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import { logoutUser } from "../../core/store/authSlice";
 import { AppDispatch } from "../../core/store/store";
 import { useAuth } from "../../hooks/useAuth";
+import { Button } from "@chakra-ui/react/button";
 
 const MainLayout = () => {
 	const dispatch = useDispatch<AppDispatch>();
@@ -42,17 +43,13 @@ const MainLayout = () => {
 				{/* Logo */}
 				<div className="h-16 flex items-center px-6 border-b border-gray-200">
 					<span className="text-sm font-bold text-gray-900 flex items-center gap-2">
-						<img
-							src="/assets/logo.png"
-							alt="logo"
-							className="w-[50px]"
-						/>
+						<img src="/logo.png" alt="logo" className="w-[50px]" />
 						Sharing Your Function
 					</span>
 				</div>
 
 				{/* Navigation */}
-				<nav className="flex-1 px-3 py-4 space-y-1">
+				<nav className="flex-1 px-3 py-4 ">
 					<NavItem
 						to="/"
 						icon={<FaHome />}
@@ -102,18 +99,18 @@ const MainLayout = () => {
 								{/* <Avatar name={user.email} size="xs" /> */}
 								<span className="text-wrap">{user.email}</span>
 							</div>
-							<button
+							<Button
 								onClick={logOut}
-								className="w-full bg-blue-500 text-white px-1 py-1 lg:px-2 lg:py-1 rounded-lg transition-colors duration-200 hover:bg-blue-600">
-								Logout
-							</button>
+								className="w-full transition-all duration-200 shadow-lg shadow-gray-500/30 hover:shadow-gray-500/50">
+								Log Out{" "}
+							</Button>
 						</div>
 					)}
 				</div>
 			</div>
 
 			{/* Main Content */}
-			<div className="flex-1 flex flex-col">
+			<div className="flex-1 flex flex-col bg-white">
 				{/* Mobile Navbar */}
 				<div className="md:hidden p-2 opacity-80 bg-white border-b border-gray-200 shadow-md flex items-center justify-between">
 					<button
@@ -122,15 +119,11 @@ const MainLayout = () => {
 						<FaBars size={24} />
 					</button>
 					<span className="text-lg font-semibold text-gray-900">
-						<img
-							src="src/assets/logo.png"
-							alt="logo"
-							className="w-[35px]"
-						/>
+						<img src="/logo.png" alt="logo" className="w-[35px]" />
 					</span>
 				</div>
 
-				<main className="lg:flex-1 overflow-auto md:p-8">
+				<main className="lg:flex-1 overflow-auto md:p-8 bg-white">
 					<Outlet />
 				</main>
 			</div>
@@ -155,7 +148,7 @@ const NavItem = ({
 		<Link
 			to={to}
 			className={`
-        flex items-center lg:gap-3 lg:px-3 lg:py-2 gap-2 px-2 py-2 rounded-lg transition-colors duration-200
+        flex items-center lg:gap-3 lg:px-3 lg:py-2 gap-2 px-2 py-2 rounded-lg transition-colors duration-200 mb-2
         ${
 			isActive
 				? "bg-gray-300 text-gray-900"
