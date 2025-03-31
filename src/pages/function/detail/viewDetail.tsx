@@ -218,7 +218,7 @@ const ViewPage = () => {
 						</div>
 
 						{/* Code Card */}
-						<div className="lg:flex-[60%] bg-white rounded-xl shadow-lg overflow-hidden">
+						<div className="lg:flex-[60%] bg-white rounded-xl  overflow-hidden">
 							<div className="shadow-lg from-gray-50 to-white md:p-4">
 								<div
 									style={style}
@@ -258,10 +258,11 @@ const ViewPage = () => {
 										<Button
 											onClick={copyCode}
 											variant="subtle"
-											color="gray"
-											className=" hover:opacity-85 px-2 py-1 lg:px-4 lg:py-2 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
-											<i className="fas fa-copy"></i>
-											Copy
+											className=" hover:opacity-85 px-2 py-1 lg:px-4 lg:py-2 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 flex items-center gap-2 ">
+											<i className="fas fa-copy text-gray-800"></i>
+											<span className="text-gray-800">
+												Copy
+											</span>
 										</Button>
 									</div>
 								</div>

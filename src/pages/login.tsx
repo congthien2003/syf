@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { FaEnvelope, FaGithub, FaLock } from "react-icons/fa";
 import { showLoading, hideLoading } from "../core/store/loadingSlice";
 import { AuthService } from "../core/services/AuthService";
+import { toaster } from "../components/ui/toaster";
 
 export default function LoginPage() {
 	const navigate = useNavigate();
@@ -35,6 +36,7 @@ export default function LoginPage() {
 				}
 			} catch (error) {
 				console.error("Login failed:", error);
+				toaster.error({ title: "Login Failed", duration: 3000 });
 				navigate("/auth/login");
 			} finally {
 				// Hide global loading indicator
@@ -44,7 +46,6 @@ export default function LoginPage() {
 	};
 
 	async function handleSocialLogin(provider: string) {
-		console.log(`Login with ${provider}`);
 		switch (provider) {
 			case "github": {
 				await AuthService.signInWithProvider("github");
@@ -58,6 +59,10 @@ export default function LoginPage() {
 
 	function navigateRegister() {
 		navigate("/auth/register");
+	}
+
+	function navigateRestore() {
+		navigate("/auth/forgot-password");
 	}
 
 	return (
@@ -192,30 +197,36 @@ export default function LoginPage() {
 									</Text>
 								)}
 
-								<Button
-									w="100%"
+								<button
+									type="submit"
 									onClick={handleSubmit}
-									mb={4}
-									size="lg"
-									bg="blue.500"
-									color="white"
-									_hover={{
-										bg: "blue.600",
-										transform: "translateY(-2px)",
-										boxShadow: "lg",
-									}}
-									_active={{
-										bg: "blue.700",
-									}}
-									position="relative"
-									overflow="hidden"
-									transition="all 0.3s ease"
 									disabled={loading.isLoading}
-									loadingText="Signing In...">
-									{loading.isLoading
-										? "Signing In..."
-										: "Sign In"}
-								</Button>
+									className="w-full min-w-[200px] py-3 mb-4 bg-blue-500 text-white rounded-md font-medium transition-all duration-300 hover:bg-blue-600 hover:-translate-y-0.5 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
+									{loading.isLoading ? (
+										<div className="flex items-center justify-center gap-2">
+											<svg
+												className="animate-spin h-5 w-5"
+												viewBox="0 0 24 24">
+												<circle
+													className="opacity-25"
+													cx="12"
+													cy="12"
+													r="10"
+													stroke="currentColor"
+													strokeWidth="4"
+												/>
+												<path
+													className="opacity-75"
+													fill="currentColor"
+													d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+												/>
+											</svg>
+											<span>Signing In...</span>
+										</div>
+									) : (
+										"Sign In"
+									)}
+								</button>
 
 								<Button
 									w="100%"
@@ -254,7 +265,8 @@ export default function LoginPage() {
 									as="span"
 									color="blue.500"
 									fontWeight="medium"
-									cursor="pointer">
+									cursor="pointer"
+									onClick={navigateRestore}>
 									Forgot your password?
 								</Text>
 							</Text>

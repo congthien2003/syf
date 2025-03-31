@@ -41,11 +41,11 @@ export default function Home() {
 				<div className="container mx-auto flex justify-between items-center px-4">
 					{/* Logo */}
 					<div className="flex items-center gap-2">
-						<h1 className="text-sm md:text-base text-black font-bold px-2 py-2 rounded-lg transition-all duration-300">
+						<h1 className="text-sm md:text-base text-gradient font-bold px-2 py-2 rounded-lg transition-all duration-300">
 							<i
 								className="fa fa-code mr-1 "
 								aria-hidden="true"></i>
-							<span className="hidden lg:inline bg-clip-text text-gray-800">
+							<span className="hidden lg:inline bg-clip-text text-gradient">
 								Sharing Your Function
 							</span>
 							<span className="inline sm:hidden">SYF</span>
@@ -112,7 +112,7 @@ export default function Home() {
 								onClick={() => {
 									navigate("/auth/register");
 								}}
-								className="px-6 py-2 text-white  font-medium rounded-lg transition-all duration-200 shadow-lg shadow-gray-500/30 hover:shadow-gray-500/50">
+								className="px-6 py-2  font-medium rounded-lg transition-all duration-200 shadow-lg text-white bg-black overflow-hidden  shadow-gray-500/30 hover:shadow-gray-500/50">
 								Register
 							</Button>
 						</div>
@@ -180,7 +180,7 @@ export default function Home() {
 				<div className="z-10 max-w-4xl mx-auto">
 					<h1 className="text-2xl md:text-3xl lg:text-5xl text-gray-700  font-bold mb-4 leading-tight  text-center transition-all duration-300">
 						Share & Discover
-						<div className="text-blue-500 text-center mt-1">
+						<div className="text-gradient-blue-purple text-center mt-1">
 							Useful Code Snippets
 						</div>
 					</h1>
@@ -203,7 +203,7 @@ export default function Home() {
 
 			{/* Services Section */}
 			<section className="max-w-6xl mx-auto py-12 md:py-20 px-4 bg-white">
-				<h2 className="text-2xl md:text-3xl md:mb-12 text-gray-500 font-bold text-center mb-12">
+				<h2 className="text-2xl md:text-3xl md:mb-12 text-gray-800 font-bold text-center mb-12">
 					Our Services
 				</h2>
 
