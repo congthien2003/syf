@@ -254,11 +254,13 @@ const YourFunctions = () => {
 				)}
 			</div>
 
-			<Pagination
-				page={page}
-				total={data?.total ?? 0}
-				pageSize={pageSize}
-				onPageChange={handleChangePage}></Pagination>
+			{functions.length > 0 && (
+				<Pagination
+					page={page}
+					total={data?.total ?? 0}
+					pageSize={pageSize}
+					onPageChange={handleChangePage}></Pagination>
+			)}
 		</div>
 	);
 };

@@ -25,6 +25,34 @@ export class AuthService {
 		return data;
 	}
 
+	static async forgotPassword(email: string) {
+		const { data, error } = await supabase.auth.resetPasswordForEmail(
+			email
+		);
+		if (error) throw error;
+		return data;
+	}
+
+	static async verifyOPTwithEmail(email: string, token: string) {
+		const { data, error } = await supabase.auth.verifyOtp({
+			email,
+			token,
+			type: "email",
+		});
+		if (error) throw error;
+		return data;
+	}
+
+	static async updatePassword(newPassword: string) {
+		const { data, error } = await supabase.auth.updateUser({
+			password: newPassword,
+		});
+
+		if (error) throw error;
+
+		return data;
+	}
+
 	// Đăng xuất
 	static async signOut() {
 		const { error } = await supabase.auth.signOut();
