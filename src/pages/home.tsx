@@ -289,36 +289,6 @@ export default function Home() {
 				</div>
 			</section>
 			<Footer></Footer>
-			{/* Join Section */}
-			{/* <section className="flex flex-col items-center justify-center mt-10">
-				<h2 className="text-3xl font-bold text-gray-800">
-					Join Now & Start Sharing
-				</h2>
-				<Button
-					colorScheme="blackAlpha"
-					size="lg"
-					className="mt-6 bg-black text-white px-6 py-3 rounded-md hover:bg-gray-800 bounce"
-					onClick={() => navigate("/auth/login")}>
-					<svg
-						className="icon "
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-						xmlns="http://www.w3.org/2000/svg"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2.5">
-						<polyline points="13.18 1.37 13.18 9.64 21.45 9.64 10.82 22.63 10.82 14.36 2.55 14.36 13.18 1.37"></polyline>
-					</svg>
-					Join
-				</Button>
-
-				<div className="my-2">
-					<ButtonIlkh
-						label="Join now"
-						onClick={() => navigate("/auth/login")}></ButtonIlkh>
-				</div>
-			</section> */}
 		</div>
 	);
 }
