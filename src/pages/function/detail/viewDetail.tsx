@@ -58,6 +58,7 @@ const ViewPage = () => {
 				title: "Failed to fetch data",
 				duration: 3000,
 			});
+			navigate("/not-found");
 		} else {
 			setSnippet(data);
 			setAll(data);

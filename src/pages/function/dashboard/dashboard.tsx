@@ -1,15 +1,17 @@
 import { useState } from "react";
 import "./style.css";
-import ButtonView from "../../../components/ui/button-view/button-view";
 import { Avatar } from "../../../components/ui/avatar";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { getList } from "../../../core/services/SnippetsService";
 import { Snippet } from "../../../core/interface/Snippets";
 import Pagination from "../../../components/ui/pagination/Pagination";
+import { Button } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
+	const navigate = useNavigate();
 	const [page, setPage] = useState(1);
-	const [pageSize] = useState(10);
+	const [pageSize] = useState(5);
 	const [search, setSearch] = useState("");
 	const [filter] = useState([]);
 
@@ -116,9 +118,15 @@ export default function Dashboard() {
 									</div>
 								</div>
 								<div className="card-actions">
-									<ButtonView
+									{/* <ButtonView
 										name="View Details"
-										to={`/view/${snippet.id}`}></ButtonView>
+										to={`/view/${snippet.id}`}></ButtonView> */}
+									<Button
+										onClick={() =>
+											navigate(`/view/${snippet.id}`)
+										}>
+										View Detail
+									</Button>
 								</div>
 							</div>
 						</div>

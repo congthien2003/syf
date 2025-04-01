@@ -76,4 +76,20 @@ export class AuthService {
 		if (!session) return null;
 		return JSON.parse(session);
 	}
+
+	static async updateProfile(data: {
+		full_name?: string;
+		avatar_url?: string;
+		website?: string;
+		bio?: string;
+	}) {
+		const { data: updatedUser, error } = await supabase.auth.updateUser({
+			data: {
+				...data,
+			},
+		});
+
+		if (error) throw error;
+		return updatedUser;
+	}
 }
