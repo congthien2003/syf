@@ -12,6 +12,9 @@ import YourFunctions from "./pages/function/yourfunction/yourFunction";
 import EditPage from "./pages/function/detail/edit";
 import { Analytics } from "@vercel/analytics/react";
 import ForgotPassword from "./pages/forgot-password";
+import NotFoundPage from "./pages/notfound";
+import ProfilePage from "./pages/profile/profile";
+
 function App() {
 	return (
 		<>
@@ -30,6 +33,7 @@ function App() {
 							path="yourfunctions"
 							element={<YourFunctions />}
 						/>{" "}
+						<Route path="profile" element={<ProfilePage />} />
 					</Route>
 					<Route path="view/:id" element={<ViewPage />} />{" "}
 					<Route path="auth/login" element={<LoginPage />} />{" "}
@@ -37,7 +41,8 @@ function App() {
 					<Route
 						path="auth/forgot-password"
 						element={<ForgotPassword />}
-					/>{" "}
+					/>
+					<Route path="not-found" element={<NotFoundPage />} />
 				</Routes>
 			</BrowserRouter>
 		</>

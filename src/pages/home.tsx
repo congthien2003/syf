@@ -43,7 +43,7 @@ export default function Home() {
 					<div className="flex items-center gap-2">
 						<h1 className="text-sm md:text-base text-gradient font-bold px-2 py-2 rounded-lg transition-all duration-300">
 							<i
-								className="fa fa-code mr-1 "
+								className="fa fa-code mr-2 "
 								aria-hidden="true"></i>
 							<span className="hidden lg:inline bg-clip-text text-gradient">
 								Sharing Your Function
@@ -88,8 +88,10 @@ export default function Home() {
 					{/* Desktop Auth Buttons */}
 					{isLogin ? (
 						<div className="hidden lg:flex items-center gap-3">
-							<Button className="px-6 py-2 text-gray-700 bg-white rounded-lg hover:bg-gray-200 transition-all duration-200 font-medium">
-								{user.email}
+							<Button
+								onClick={() => navigate("/profile")}
+								className="px-6 py-2 text-gray-700 bg-white rounded-lg hover:bg-gray-200 transition-all duration-200 font-medium">
+								{user.user_metadata.full_name ?? user.email}
 							</Button>
 							<Button
 								onClick={logOut}

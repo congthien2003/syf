@@ -12,7 +12,7 @@ export default function ButtonView({ name, to }: Props) {
 			onClick={() => {
 				navigate(to ?? "/");
 			}}>
-			<span className="relative z-10 transition-colors duration-400 inline-flex items-center p-[0.4em_0.6em_0.4em_0.6em]">
+			<span className="relative z-10 transition-colors text-gradient duration-400 inline-flex items-center p-[0.4em_0.6em_0.4em_0.6em]">
 				<svg
 					className="w-[1.2em] h-[1.2em] mr-2"
 					viewBox="0 0 24 24"

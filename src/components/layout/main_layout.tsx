@@ -8,6 +8,8 @@ import {
 	FaUserPlus,
 	FaCode,
 	FaBars,
+	FaArrowAltCircleRight,
+	FaUser,
 } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../../core/store/authSlice";
@@ -15,12 +17,62 @@ import { AppDispatch } from "../../core/store/store";
 import { useAuth } from "../../hooks/useAuth";
 import { Button } from "@chakra-ui/react/button";
 
+// Define navigation items interface
+interface NavItemProps {
+	to: string;
+	icon: React.ReactNode;
+	label: string;
+	requireAuth?: boolean;
+}
+
+// Define navigation items
+const navigationItems: NavItemProps[] = [
+	{
+		to: "/",
+		icon: <FaHome />,
+		label: "Home",
+		requireAuth: false,
+	},
+	{
+		to: "/storing",
+		icon: <FaDatabase />,
+		label: "Storing",
+		requireAuth: true,
+	},
+	{
+		to: "/yourfunctions",
+		icon: <FaCode />,
+		label: "Your functions",
+		requireAuth: true,
+	},
+	{
+		to: "/sharing",
+		icon: <FaShareAlt />,
+		label: "Sharing",
+		requireAuth: true,
+	},
+];
+
+const authItems: NavItemProps[] = [
+	{
+		to: "/auth/login",
+		icon: <FaSignInAlt />,
+		label: "Login",
+	},
+	{
+		to: "/auth/register",
+		icon: <FaUserPlus />,
+		label: "Register",
+	},
+];
+
 const MainLayout = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
 	const location = useLocation();
 	const user = useAuth();
 	const [, setURL] = useState("/");
+	const [sidebarOpen, setSidebarOpen] = useState(false);
 
 	useEffect(() => {
 		setURL(location.pathname);
@@ -31,8 +83,6 @@ const MainLayout = () => {
 		navigate("/auth/login");
 	};
 
-	const [sidebarOpen, setSidebarOpen] = useState(false);
-
 	return (
 		<div className="flex h-screen w-screen bg-gray-100">
 			{/* Sidebar (Desktop & Mobile) */}
@@ -42,67 +92,56 @@ const MainLayout = () => {
 				} transition-transform translate-x-full duration-300 ease-in-out md:relative md:translate-x-0 z-50 relative`}>
 				{/* Logo */}
 				<div className="h-16 flex items-center px-6 border-b border-gray-200">
-					<span className="text-sm font-bold text-gray-900 flex items-center gap-2">
-						<img src="/logo.png" alt="logo" className="w-[50px]" />
+					<span className="text-sm font-bold flex items-center gap-2">
+						<img src="./logo.png" alt="logo" className="w-[50px]" />
 						Sharing Your Function
 					</span>
 				</div>
 
 				{/* Navigation */}
-				<nav className="flex-1 px-3 py-4 ">
-					<NavItem
-						to="/"
-						icon={<FaHome />}
-						label="Home"
-						location={location.pathname}
-					/>
-					<NavItem
-						to="/storing"
-						icon={<FaDatabase />}
-						label="Storing"
-						location={location.pathname}
-					/>
-					<NavItem
-						to="/yourfunctions"
-						icon={<FaCode />}
-						label="Your functions"
-						location={location.pathname}
-					/>
-					<NavItem
-						to="/sharing"
-						icon={<FaShareAlt />}
-						label="Sharing"
-						location={location.pathname}
-					/>
+				<nav className="flex-1 px-3 py-4">
+					{navigationItems.map(
+						(item) =>
+							// Only show items that don't require auth, or if user is authenticated
+							(!item.requireAuth || user) && (
+								<NavItem
+									key={item.to}
+									to={item.to}
+									icon={item.icon}
+									label={item.label}
+									location={location.pathname}
+								/>
+							)
+					)}
 				</nav>
 
 				{/* Auth Section */}
 				<div className="mt-auto border-t border-gray-200 p-4">
 					{!user ? (
 						<div className="space-y-1">
-							<NavItem
-								to="/auth/login"
-								icon={<FaSignInAlt />}
-								label="Login"
-								location={location.pathname}
-							/>
-							<NavItem
-								to="/auth/register"
-								icon={<FaUserPlus />}
-								label="Register"
-								location={location.pathname}
-							/>
+							{authItems.map((item) => (
+								<NavItem
+									key={item.to}
+									to={item.to}
+									icon={item.icon}
+									label={item.label}
+									location={location.pathname}
+								/>
+							))}
 						</div>
 					) : (
 						<div className="space-y-3">
-							<div className="text-sm text-gray-600 text-wrap">
-								{/* <Avatar name={user.email} size="xs" /> */}
-								<span className="text-wrap">{user.email}</span>
-							</div>
+							<Button
+								onClick={() => navigate("/profile")}
+								variant={"outline"}
+								className="w-full text-wrap">
+								<FaUser className="text-sm" />{" "}
+								{user.user_metadata.full_name ?? user.email}
+							</Button>
 							<Button
 								onClick={logOut}
 								className="w-full transition-all duration-200 shadow-lg shadow-gray-500/30 hover:shadow-gray-500/50">
-								Log Out{" "}
+								<FaArrowAltCircleRight /> Log Out
 							</Button>
 						</div>
 					)}
@@ -123,7 +162,7 @@ const MainLayout = () => {
 					</span>
 				</div>
 
-				<main className="lg:flex-1 overflow-auto md:p-8 bg-white">
+				<main className="lg:flex-1 overflow-auto md:p-4 md:py-8 bg-white">
 					<Outlet />
 				</main>
 			</div>
