@@ -64,8 +64,6 @@ const YourFunctions = () => {
 			dispatch(showLoading());
 			const newStatus = !selectedSnippet.public;
 			await updateSnippetStatus(selectedSnippet.id, newStatus);
-			console.log(newStatus);
-
 			// Update local state
 			setFunctions(
 				data?.data?.map((fn) =>

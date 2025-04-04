@@ -6,6 +6,7 @@ import { Button } from "@chakra-ui/react";
 import { FaUser, FaGlobe } from "react-icons/fa";
 import { showLoading, hideLoading } from "../../core/store/loadingSlice";
 import { toaster } from "../../components/ui/toaster";
+import { setUser } from "../../core/store/authSlice";
 
 export default function ProfilePage() {
 	const dispatch = useDispatch<AppDispatch>();
@@ -24,7 +25,8 @@ export default function ProfilePage() {
 	const handleUpdateProfile = async () => {
 		try {
 			dispatch(showLoading());
-			await AuthService.updateProfile(profileData);
+			const updatedUser = await AuthService.updateProfile(profileData);
+			dispatch(setUser(updatedUser));
 			toaster.success({
 				title: "Profile updated successfully!",
 				duration: 3000,
