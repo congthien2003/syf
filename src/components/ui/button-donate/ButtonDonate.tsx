@@ -1,3 +1,4 @@
+import { FaCoffee } from "react-icons/fa";
 import styled from "styled-components";
 type Props = {
 	onclick: () => void;
@@ -5,8 +6,10 @@ type Props = {
 const ButtonDonate = ({ onclick }: Props) => {
 	return (
 		<StyledWrapper>
-			<button onClick={onclick} className="btn-donate">
-				Donate now
+			<button
+				onClick={onclick}
+				className="btn-donate flex items-center gap-2">
+				<FaCoffee /> Buy me a coffee
 			</button>
 		</StyledWrapper>
 	);
@@ -20,9 +23,9 @@ const StyledWrapper = styled.div`
 		--btn-bg-color: hsla(360 100% 100% / 1);
 		--radii: 0.5em;
 		cursor: pointer;
-		padding: 0.9em 1.4em;
+		padding: 0.5em 1.6em;
 		min-width: 120px;
-		min-height: 44px;
+		min-height: 40px;
 		font-size: var(--size, 1rem);
 		font-weight: 500;
 		transition: 0.8s;

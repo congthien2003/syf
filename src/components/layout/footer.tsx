@@ -1,9 +1,11 @@
 // import ButtonDonate from "../ui/button-donate/ButtonDonate";
 
+import ButtonDonate from "../ui/button-donate/ButtonDonate";
+
 export default function Footer() {
 	return (
 		<footer className="bg-gray-900 text-gray-300 py-8 px-6">
-			<div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 text-center md:text-left">
+			<div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left">
 				{/* About Section */}
 				<div>
 					<h3 className="text-lg font-semibold text-white">
@@ -34,16 +36,16 @@ export default function Footer() {
 						</a>
 					</p>
 				</div>
-				{/* <div>
+				<div>
 					<ButtonDonate
 						onclick={() =>
-							window.open("https://www.buymeacoffee.com/sabo")
+							window.open("https://syf.io.vn/qr-code.jpg")
 						}></ButtonDonate>
 					<p className="font-medium text-sm md:text-base mt-2 text-gray-400">
 						Thanks you for your support <br /> Donate to help us
 						keep the site running
 					</p>
-				</div> */}
+				</div>
 			</div>
 
 			{/* Bottom Section */}
