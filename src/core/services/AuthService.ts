@@ -21,7 +21,7 @@ export class AuthService {
 		const { data, error } = await supabase.auth.signInWithOAuth({
 			provider,
 			options: {
-				redirectTo: `${window.location.origin}/auth/callback`,
+				redirectTo: `https://syf.io.vn`,
 			},
 		});
 		if (error) throw error;
