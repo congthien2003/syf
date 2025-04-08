@@ -4,9 +4,8 @@ import { RootState, AppDispatch } from "../core/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { signIn } from "../core/store/authSlice";
 import { useNavigate } from "react-router-dom";
-import { FaEnvelope, FaGithub, FaLock } from "react-icons/fa";
+import { FaEnvelope, FaLock } from "react-icons/fa";
 import { showLoading, hideLoading } from "../core/store/loadingSlice";
-import { AuthService } from "../core/services/AuthService";
 import { toaster } from "../components/ui/toaster";
 
 export default function LoginPage() {
@@ -45,17 +44,17 @@ export default function LoginPage() {
 		}
 	};
 
-	async function handleSocialLogin(provider: string) {
-		switch (provider) {
-			case "github": {
-				await AuthService.signInWithProvider("github");
-				break;
-			}
-			default:
-				break;
-		}
-		// API call for social login (Facebook/Google)
-	}
+	// async function handleSocialLogin(provider: string) {
+	// 	switch (provider) {
+	// 		case "github": {
+	// 			await AuthService.signInWithProvider("github");
+	// 			break;
+	// 		}
+	// 		default:
+	// 			break;
+	// 	}
+	// 	// API call for social login (Facebook/Google)
+	// }
 
 	function navigateRegister() {
 		navigate("/auth/register");
@@ -228,7 +227,7 @@ export default function LoginPage() {
 									Don't have an account? Sign up
 								</Button>
 							</form>
-							<h4 className="text-center text-bold text-md">
+							{/* <h4 className="text-center text-bold text-md">
 								Or
 							</h4>
 							<div className="flex items-center justify-center mt-2">
@@ -237,7 +236,7 @@ export default function LoginPage() {
 									<FaGithub />
 									Github
 								</Button>
-							</div>
+							</div> */}
 
 							<Text
 								fontSize="sm"

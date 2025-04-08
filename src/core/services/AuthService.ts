@@ -17,16 +17,16 @@ export class AuthService {
 	}
 
 	// Đăng nhập với OAuth (Google, GitHub,...)
-	static async signInWithProvider(provider: "google" | "github") {
-		const { data, error } = await supabase.auth.signInWithOAuth({
-			provider,
-			options: {
-				redirectTo: `https://syf.io.vn`,
-			},
-		});
-		if (error) throw error;
-		return data;
-	}
+	// static async signInWithProvider(provider: "google" | "github") {
+	// 	const { data, error } = await supabase.auth.signInWithOAuth({
+	// 		provider,
+	// 		options: {
+	// 			redirectTo: `https://syf.io.vn/callback`,
+	// 		},
+	// 	});
+	// 	if (error) throw error;
+	// 	return data;
+	// }
 
 	static async forgotPassword(email: string) {
 		const { data, error } = await supabase.auth.resetPasswordForEmail(
