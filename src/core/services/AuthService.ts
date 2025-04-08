@@ -20,6 +20,9 @@ export class AuthService {
 	static async signInWithProvider(provider: "google" | "github") {
 		const { data, error } = await supabase.auth.signInWithOAuth({
 			provider,
+			options: {
+				redirectTo: `${window.location.origin}/auth/callback`,
+			},
 		});
 		if (error) throw error;
 		return data;
