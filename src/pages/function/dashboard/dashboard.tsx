@@ -48,8 +48,8 @@ export default function Dashboard() {
 		<div className="dashboard">
 			<div className="container">
 				{/* Header Section */}
-				<div className="header">
-					<h1>Discover Functions</h1>
+				<div className="header bg-slate-200 p-4 rounded-lg shadow-md mb-4">
+					<h2 className="text-3xl font-bold">Discover Functions</h2>
 					<p>
 						Explore and find the perfect function for your project
 					</p>
