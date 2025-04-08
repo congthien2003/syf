@@ -84,6 +84,7 @@ export default function StorePage() {
 				title: "Function saved successfully",
 				duration: 2500,
 			});
+			navigate("/yourfunctions");
 		}
 	};
 

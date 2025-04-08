@@ -1,7 +1,4 @@
 // import ButtonDonate from "../ui/button-donate/ButtonDonate";
-
-import ButtonDonate from "../ui/button-donate/ButtonDonate";
-
 export default function Footer() {
 	return (
 		<footer className="bg-gray-900 text-gray-300 py-8 px-6">
@@ -36,7 +33,7 @@ export default function Footer() {
 						</a>
 					</p>
 				</div>
-				<div>
+				{/* <div>
 					<ButtonDonate
 						onclick={() =>
 							window.open("https://syf.io.vn/qr-code.jpg")
@@ -45,7 +42,7 @@ export default function Footer() {
 						Thanks you for your support <br /> Donate to help us
 						keep the site running
 					</p>
-				</div>
+				</div> */}
 			</div>
 
 			{/* Bottom Section */}

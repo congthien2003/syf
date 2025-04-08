@@ -34,7 +34,6 @@
 
 /* Search and Filter Bar */
 .search-filter-container {
-	background: white;
 	border-radius: 1rem;
 	padding: 1rem;
 }
@@ -105,7 +104,7 @@
 }
 
 .card-content {
-	padding: 1.5rem;
+	padding: 0.5rem 1rem;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
